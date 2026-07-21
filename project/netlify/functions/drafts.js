@@ -1,22 +1,17 @@
 // netlify/functions/drafts.js
 //
-// CRUD для чернеток. Дані живуть у Netlify Blobs (вбудоване сховище Netlify,
-// не потребує окремого акаунта чи налаштувань — працює одразу після деплою).
+// CRUD для чернеток. Дані живуть у Netlify Blobs.
 //
 // GET    /.netlify/functions/drafts          -> список усіх чернеток
 // POST   /.netlify/functions/drafts          -> створити або оновити чернетку (body.id є/нема)
 // DELETE /.netlify/functions/drafts?id=...   -> видалити чернетку
 
-const { getStore } = require('@netlify/blobs');
+const { openStore } = require('../lib/store');
 
 const CORS_HEADERS = { 'Content-Type': 'application/json' };
 
 exports.handler = async (event) => {
-  const store = getStore({
-  name: 'drafts',
-  siteID: process.env.BLOBS_SITE_ID,
-  token: process.env.BLOBS_TOKEN,
-});
+  const store = openStore('drafts');
 
   try {
     if (event.httpMethod === 'GET') {

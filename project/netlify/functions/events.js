@@ -6,16 +6,12 @@
 // POST   /.netlify/functions/events          -> створити або оновити подію (body.id є/нема)
 // DELETE /.netlify/functions/events?id=...   -> видалити подію
 
-const { getStore } = require('@netlify/blobs');
+const { openStore } = require('../lib/store');
 
 const CORS_HEADERS = { 'Content-Type': 'application/json' };
 
 exports.handler = async (event) => {
-  const store = getStore({
-  name: 'events',
-  siteID: process.env.BLOBS_SITE_ID,
-  token: process.env.BLOBS_TOKEN,
-});
+  const store = openStore('events');
 
   try {
     if (event.httpMethod === 'GET') {
