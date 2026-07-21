@@ -11,7 +11,11 @@ const { getStore } = require('@netlify/blobs');
 const CORS_HEADERS = { 'Content-Type': 'application/json' };
 
 exports.handler = async (event) => {
-  const store = getStore('events');
+  const store = getStore({
+  name: 'events',
+  siteID: process.env.BLOBS_SITE_ID,
+  token: process.env.BLOBS_TOKEN,
+});
 
   try {
     if (event.httpMethod === 'GET') {
