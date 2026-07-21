@@ -1,9 +1,10 @@
 // netlify/functions/generate-text.js
 //
 // Ця функція приймає дані форми (шаблон + заповнені поля) і звертається
-// до Claude API, щоб написати текст поста за правилами з розділу 9 ТЗ.
-// Ключ ANTHROPIC_API_KEY НІКОЛИ не потрапляє в браузер — він живе тільки
-// тут, на сервері Netlify (задається в Site settings → Environment variables).
+// до Google Gemini API (безкоштовний тариф), щоб написати текст поста за
+// правилами з розділу 9 ТЗ. Ключ GEMINI_API_KEY НІКОЛИ не потрапляє в
+// браузер — він живе тільки тут, на сервері Netlify (Site settings →
+// Environment variables).
 
 const SYSTEM_PROMPT = `Ти — редактор Telegram-каналу Студентського парламенту ІФНТУНГ.
 Пишеш українською мовою в такому стилі:
@@ -50,11 +51,11 @@ exports.handler = async (event) => {
 
   const { templateName, templateDescription, fields } = body;
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'ANTHROPIC_API_KEY не налаштовано в Netlify (Site settings → Environment variables).' })
+      body: JSON.stringify({ error: 'GEMINI_API_KEY не налаштовано в Netlify (Site settings → Environment variables).' })
     };
   }
 
@@ -71,29 +72,42 @@ ${fieldsList}
 
 Напиши пост за цими даними і поверни лише JSON у вказаному форматі.`;
 
+  if (typeof fetch === 'undefined') {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: 'У цьому Node-рантаймі немає вбудованого fetch. Потрібен Node 18+ (додай NODE_VERSION у netlify.toml).' })
+    };
+  }
+
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1200,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: userPrompt }]
-      })
-    });
+    const model = 'gemini-2.5-flash';
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
+          generationConfig: {
+            responseMimeType: 'application/json',
+            maxOutputTokens: 1200
+          }
+        })
+      }
+    );
 
     const data = await response.json();
 
     if (!response.ok) {
+      console.error('Gemini API error:', JSON.stringify(data));
       return { statusCode: response.status, body: JSON.stringify({ error: data }) };
     }
 
-    const raw = (data.content || []).map((b) => b.text || '').join('\n');
+    const raw = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('\n');
     const clean = raw.replace(/```json|```/g, '').trim();
 
     let parsed;
@@ -111,6 +125,7 @@ ${fieldsList}
       body: JSON.stringify(parsed)
     };
   } catch (err) {
-    return { statusCode: 500, body: JSON.stringify({ error: err.message }) };
+    console.error('Function crashed:', err);
+    return { statusCode: 500, body: JSON.stringify({ error: err.message, stack: err.stack }) };
   }
 };
