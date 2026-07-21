@@ -79,8 +79,8 @@
       <div class="content">
         <section class="view active" id="home">
           <div class="heading"><div><h1>Доброго дня, Вікторе</h1><p class="lead">Все для наступного посту вже в одному місці: ідея, текст, превʼю та нагадування.</p></div><button class="btn primary" data-go-create><i data-lucide="sparkles"></i>Створити пост</button></div>
-          <div class="stats"><div class="stat featured"><label>Найближчий пост</label><b>24 серпня</b><small>День Незалежності України</small></div><div class="stat"><label>Готові чернетки</label><b>2</b><small>Текст і превʼю перевірені</small></div><div class="stat"><label>Нагадування бота</label><b>08:30</b><small>У день публікації</small></div><div class="stat"><label>Календар</label><b>18</b><small>Важливих дат на рік</small></div></div>
-          <div class="home-grid"><div class="panel"><div class="panel-head"><h2>Найближчі матеріали</h2><button class="btn ghost" data-view="calendar">Відкрити календар <i data-lucide="arrow-up-right"></i></button></div><div class="event-list" id="home-events"><div class="event"><div class="date-box">23<br>СЕР</div><div><b>Нагадування про День Незалежності</b><span>Автоматична святкова чернетка · текст і превʼю</span></div><span class="status auto">згенерувати</span></div><div class="event"><div class="date-box">24<br>СЕР</div><div><b>День Незалежності України</b><span>Свято · #привітання · публікація</span></div><span class="status">заплановано</span></div><div class="event"><div class="date-box">31<br>СЕР</div><div><b>Опитування серед студентів</b><span>Чернетка · посилання на форму додано</span></div><span class="status ready">готово</span></div></div></div><div class="panel"><div class="panel-head"><h2>Нагадування</h2><button class="btn ghost" data-view="drafts">Чернетки</button></div><div class="reminders"><div class="reminder"><b>За день до публікації</b><span>Бот надішле тему, короткий опис, текст і превʼю.</span></div><div class="reminder"><b>О 08:30 у день посту</b><span>Повторно нагадає, що матеріал пора опублікувати.</span></div></div><div class="bot-state"><i data-lucide="bot"></i><span><b>Бот буде підʼєднано на наступному етапі.</b><br>Сценарій уже готовий у системі.</span></div></div></div>
+          <div class="stats"><div class="stat featured"><label>Найближчий пост</label><b id="stat-nearest-date">—</b><small id="stat-nearest-title">Подій ще не додано</small></div><div class="stat"><label>Готові чернетки</label><b id="stat-ready-count">0</b><small>Текст і превʼю перевірені</small></div><div class="stat"><label>Нагадування бота</label><b>08:30</b><small>У день публікації</small></div><div class="stat"><label>Календар</label><b id="stat-events-count">0</b><small>Подій у базі</small></div></div>
+          <div class="home-grid"><div class="panel"><div class="panel-head"><h2>Найближчі матеріали</h2><button class="btn ghost" data-view="calendar">Відкрити календар <i data-lucide="arrow-up-right"></i></button></div><div class="event-list" id="home-events"><div class="empty">Завантаження…</div></div></div><div class="panel"><div class="panel-head"><h2>Нагадування</h2><button class="btn ghost" data-view="drafts">Чернетки</button></div><div class="reminders"><div class="reminder"><b>За день до публікації</b><span>Бот надішле тему, короткий опис, текст і превʼю.</span></div><div class="reminder"><b>О 08:30 у день посту</b><span>Повторно нагадає, що матеріал пора опублікувати.</span></div></div><div class="bot-state"><i data-lucide="bot"></i><span><b>Бот буде підʼєднано на наступному етапі.</b><br>Сценарій уже готовий у системі.</span></div></div></div>
         </section>
 
         <section class="view" id="create">
@@ -90,7 +90,7 @@
 
         <section class="view" id="calendar"><div class="heading"><div><h1>Календар подій</h1><p class="lead">Важливі українські та локальні дати. Власник може додавати, змінювати й прибирати події.</p></div><div class="calendar-tools"><button class="btn" id="prev-month"><i data-lucide="chevron-left"></i></button><button class="btn" id="next-month"><i data-lucide="chevron-right"></i></button><button class="btn primary" id="add-event"><i data-lucide="plus"></i>Додати подію</button></div></div><div class="panel month"><div class="panel-head" style="padding:0 0 16px"><h2 id="month-label">Серпень 2026</h2><span class="tag">Автоподії увімкнено</span></div><div class="weekdays"><div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Нд</div></div><div class="calendar-grid" id="calendar-grid"></div></div></section>
 
-        <section class="view" id="drafts"><div class="heading"><div><h1>Чернетки</h1><p class="lead">Підготовані матеріали, які ще не публікували в каналі.</p></div><button class="btn primary" data-go-create><i data-lucide="plus"></i>Новий пост</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Матеріал</th><th>Дата публікації</th><th>Тип</th><th>Статус</th><th></th></tr></thead><tbody id="draft-list"><tr><td><b>Опитування серед студентів</b><small>НАК «Нафтогаз» · посилання додано</small></td><td>31 серпня</td><td><span class="role">Опитування</span></td><td><span class="status ready">готово</span></td><td><div class="table-actions"><button class="btn open-draft">Відкрити</button></div></td></tr><tr><td><b>День Незалежності України</b><small>Автоматична подія · грифон у святковому образі</small></td><td>24 серпня</td><td><span class="role">Свято</span></td><td><span class="status">нова</span></td><td><div class="table-actions"><button class="btn open-draft">Відкрити</button></div></td></tr></tbody></table></div></section>
+        <section class="view" id="drafts"><div class="heading"><div><h1>Чернетки</h1><p class="lead">Підготовані матеріали, які ще не публікували в каналі.</p></div><button class="btn primary" data-go-create><i data-lucide="plus"></i>Новий пост</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Матеріал</th><th>Дата публікації</th><th>Тип</th><th>Статус</th><th></th></tr></thead><tbody id="draft-list"><tr><td colspan="5" class="empty">Завантаження…</td></tr></tbody></table></div></section>
 
         <section class="view" id="archive"><div class="heading"><div><h1>Архів стилю</h1><p class="lead">Опубліковані матеріали, на яких базується тон і структура майбутніх постів.</p></div><button class="btn"><i data-lucide="search"></i>Пошук</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Пост</th><th>Період</th><th>Шаблон</th><th>Стиль</th></tr></thead><tbody><tr><td><b>Безкоштовне відвідування басейну</b><small>Липень · наголос на місяці та літньому настрої</small></td><td>Липень 2026</td><td>Басейн</td><td><span class="role">#активність</span></td></tr><tr><td><b>Турнір з волейболу</b><small>Анонс з датою, часом, місцем і реєстрацією</small></td><td>Травень 2026</td><td>Змагання</td><td><span class="role">#активність</span></td></tr><tr><td><b>З Днем вишиванки</b><small>Святковий грифон у вишиванці</small></td><td>Травень 2026</td><td>Свято</td><td><span class="role">#привітання</span></td></tr></tbody></table></div></section>
 
@@ -104,6 +104,9 @@
   <div class="toast" id="toast">Збережено</div>
   <script>
     const socialFooter = "\n\nP. S. З любов'ю, СП ІФНТУНГ! 💙\n\n[Чат](https://t.me/+A5L5PvpNuuw0ZWQy) 🕺🏻 | [Insta](https://www.instagram.com/studparlament_ifntuog/) 🪩 | [Tiktok](https://www.tiktok.com/@studparlament?_t=8guz5XFVLbZ&_r=1) 🔥";
+    const STATUS_LABELS = { new:'Нова чернетка', editing:'На редагуванні', generated:'Чернетка готова', ready:'Готово до публікації', published:'Опубліковано' };
+    const MONTHS_SHORT = ['СІЧ','ЛЮТ','БЕР','КВІ','ТРА','ЧЕР','ЛИП','СЕР','ВЕР','ЖОВ','ЛИС','ГРУ'];
+    const MONTHS_GEN = ['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня'];
     const templates = {
       holiday:{name:'Свято або важлива дата', tag:'Привітання', icon:'sparkles', description:'Для святкових і важливих українських дат. Система враховує сезон, подію та вашого грифона.', hash:'#привітання', fields:[['Назва події','title','День Незалежності України','text'],['Дата публікації','date','2026-08-24','date'],['Ключова думка','idea','Про свободу, єдність і силу України','textarea'],['Побажання до зображення','visual','Грифон у синьо-жовтому образі, святковий настрій','textarea']]},
       event:{name:'Анонс заходу',tag:'Активність',icon:'calendar-plus',description:'Запрошення на захід від факультету чи партнерів: дата, місце, реєстрація та головна причина прийти.',hash:'#активність',fields:[['Назва заходу','title','Технології майбутнього: 3D моделювання та друк','text'],['Дата і час','date','20–21 травня, 12:00','text'],['Місце','place','ауд. 4510в, Центр інноваційного розвитку','text'],['Посилання на реєстрацію','link','https://forms.gle/','url'],['Що буде на заході','details','Створення власної 3D-моделі, знайомство з 3D-друком і практика','textarea']]},
@@ -119,12 +122,14 @@
     };
     const menu = document.getElementById('template-menu'), fields = document.getElementById('fields'), output = document.getElementById('output');
     let activeTemplate = 'holiday', calendarMonth = 7, calendarYear = 2026;
+    let currentDraftId = null, currentDraftStatus = null;
+    let draftsData = [], eventsData = [];
     const toast = text => { const el=document.getElementById('toast'); el.textContent=text; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2300); };
     const escape = value => String(value).replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
     function switchView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id)); document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id)); const labels={home:'Головна',create:'Створити пост',calendar:'Календар подій',drafts:'Чернетки',archive:'Архів стилю',team:'Команда'}; document.getElementById('crumb').textContent=labels[id]; window.scrollTo({top:0,behavior:'smooth'}); }
     document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view))); document.querySelectorAll('[data-go-create]').forEach(b=>b.addEventListener('click',()=>switchView('create')));
     function drawMenu(){ Object.entries(templates).forEach(([key,t])=>{ const b=document.createElement('button'); b.className='template'; b.dataset.template=key; b.innerHTML=`<i data-lucide="${t.icon}"></i><span>${t.name}</span>`; b.addEventListener('click',()=>selectTemplate(key)); menu.appendChild(b); }); }
-    function selectTemplate(key){ activeTemplate=key; const t=templates[key]; document.querySelectorAll('.template').forEach(b=>b.classList.toggle('active',b.dataset.template===key)); document.getElementById('form-name').textContent=t.name; document.getElementById('form-description').textContent=t.description; document.getElementById('form-tag').textContent=t.tag; fields.innerHTML=t.fields.map(([label,name,value,type])=>`<div class="field ${type==='textarea'?'full':''}"><label for="f-${name}">${label}</label>${type==='textarea'?`<textarea id="f-${name}" data-key="${name}">${escape(value)}</textarea>`:`<input id="f-${name}" data-key="${name}" type="${type}" value="${escape(value)}">`}</div>`).join(''); output.hidden=true; document.getElementById('draft-state').textContent='Нова чернетка'; }
+    function selectTemplate(key,{keepDraft}={}){ activeTemplate=key; const t=templates[key]; document.querySelectorAll('.template').forEach(b=>b.classList.toggle('active',b.dataset.template===key)); document.getElementById('form-name').textContent=t.name; document.getElementById('form-description').textContent=t.description; document.getElementById('form-tag').textContent=t.tag; fields.innerHTML=t.fields.map(([label,name,value,type])=>`<div class="field ${type==='textarea'?'full':''}"><label for="f-${name}">${label}</label>${type==='textarea'?`<textarea id="f-${name}" data-key="${name}">${escape(value)}</textarea>`:`<input id="f-${name}" data-key="${name}" type="${type}" value="${escape(value)}">`}</div>`).join(''); output.hidden=true; if(!keepDraft){ currentDraftId=null; currentDraftStatus=null; document.getElementById('draft-state').textContent='Нова чернетка'; document.getElementById('save-state').textContent=''; } }
     const values = () => Object.fromEntries([...fields.querySelectorAll('[data-key]')].map(i=>[i.dataset.key,i.value.trim()]));
     function makeText(t,v){ const title=v.title || 'Новий пост'; const link=v.link ? `\n\n🔗 [Посилання](${v.link}) 👈🏻` : ''; let text='';
       if(activeTemplate==='holiday') text=`🇺🇦 **Сьогодні — ${title}**\n\n*${v.idea || 'Важлива дата для кожного з нас'}*\n\nЦей день нагадує про те, що нас об’єднує, про цінності, які ми бережемо, і про силу бути разом 🫂\n\n*Нехай у кожному дні буде місце для вдячності, підтримки та віри в майбутнє України*\n\n**Вітаємо зі святом!** 💙💛`;
@@ -179,13 +184,154 @@
         if(btn){ btn.disabled=false; btn.innerHTML=originalLabel; }
       }
     }
-    document.getElementById('generate-all').onclick=()=>generate(); document.getElementById('generate-text').onclick=()=>generate('text'); document.getElementById('generate-preview').onclick=()=>generate('preview'); document.getElementById('save-draft').onclick=()=>{ document.getElementById('save-state').textContent='Чернетку збережено'; document.getElementById('draft-state').textContent='Збережено'; toast('Чернетку збережено'); };
+    document.getElementById('generate-all').onclick=()=>generate(); document.getElementById('generate-text').onclick=()=>generate('text'); document.getElementById('generate-preview').onclick=()=>generate('preview');
+
+    async function saveDraft(explicitStatus){
+      const t=templates[activeTemplate], v=values(); const text=document.getElementById('post-copy').value||'';
+      let status = explicitStatus || (currentDraftStatus==='ready'||currentDraftStatus==='published' ? currentDraftStatus : (text ? 'generated' : 'new'));
+      const payload={ id: currentDraftId||undefined, templateKey:activeTemplate, title: v.title||t.name, status, publishDate: v.date||'', author:'Віктор', fields:v, text };
+      const btn=document.getElementById('save-draft'); btn.disabled=true;
+      try{
+        const res=await fetch('/.netlify/functions/drafts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        if(!res.ok) throw new Error('save failed');
+        const saved=await res.json();
+        currentDraftId=saved.id; currentDraftStatus=saved.status;
+        document.getElementById('save-state').textContent='Чернетку збережено';
+        document.getElementById('draft-state').textContent=STATUS_LABELS[saved.status]||'Збережено';
+        toast('Чернетку збережено');
+        await loadDrafts();
+      }catch(err){ console.error(err); toast('Не вдалося зберегти — перевір базу даних'); }
+      finally{ btn.disabled=false; }
+    }
+    document.getElementById('save-draft').onclick=()=>saveDraft();
+    document.getElementById('ready').onclick=()=>saveDraft('ready');
+
+    async function loadDrafts(){
+      try{ const res=await fetch('/.netlify/functions/drafts'); draftsData=res.ok?await res.json():[]; }
+      catch(e){ console.error(e); draftsData=[]; }
+      renderDrafts(); renderHome();
+    }
+    function renderDrafts(){
+      const tbody=document.getElementById('draft-list');
+      if(!draftsData.length){ tbody.innerHTML='<tr><td colspan="5" class="empty">Ще немає жодної чернетки. Натисни «Новий пост», щоб створити першу.</td></tr>'; return; }
+      tbody.innerHTML=draftsData.map(d=>{
+        const t=templates[d.templateKey]||{name:'Чернетка'};
+        const isReady=d.status==='ready'||d.status==='published';
+        return `<tr><td><b>${escape(d.title||t.name)}</b><small>${escape(d.author||'')}</small></td><td>${escape(d.publishDate||'—')}</td><td><span class="role">${escape(t.name)}</span></td><td><span class="status ${isReady?'ready':''}">${STATUS_LABELS[d.status]||d.status}</span></td><td><div class="table-actions"><button class="btn" data-open="${d.id}">Відкрити</button><button class="btn ghost" data-del-draft="${d.id}">Видалити</button></div></td></tr>`;
+      }).join('');
+      tbody.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openDraft(b.dataset.open));
+      tbody.querySelectorAll('[data-del-draft]').forEach(b=>b.onclick=()=>deleteDraft(b.dataset.delDraft));
+    }
+    function openDraft(id){
+      const draft=draftsData.find(d=>d.id===id); if(!draft) return;
+      selectTemplate(draft.templateKey||'holiday');
+      currentDraftId=draft.id; currentDraftStatus=draft.status;
+      Object.entries(draft.fields||{}).forEach(([k,val])=>{ const el=document.getElementById('f-'+k); if(el) el.value=val; });
+      if(draft.text){
+        const t=templates[activeTemplate];
+        document.getElementById('post-copy').value=draft.text;
+        document.getElementById('preview-title').textContent=(draft.fields?.title||t.name).toUpperCase();
+        document.getElementById('preview-subtitle').textContent=draft.publishDate||t.tag;
+        document.getElementById('preview-hash').textContent=t.hash;
+        output.hidden=false;
+      }
+      document.getElementById('draft-state').textContent=STATUS_LABELS[draft.status]||'Чернетка';
+      switchView('create');
+    }
+    async function deleteDraft(id){
+      if(!confirm('Видалити цю чернетку?')) return;
+      try{ await fetch('/.netlify/functions/drafts?id='+encodeURIComponent(id),{method:'DELETE'}); if(currentDraftId===id) currentDraftId=null; await loadDrafts(); toast('Чернетку видалено'); }
+      catch(e){ console.error(e); toast('Не вдалося видалити чернетку'); }
+    }
+    function resetCreator(){ currentDraftId=null; currentDraftStatus=null; selectTemplate(activeTemplate); }
+    document.querySelectorAll('[data-go-create]').forEach(b=>b.addEventListener('click',()=>{ resetCreator(); switchView('create'); }));
+
+    function formatShortDate(dateStr){ const d=new Date(dateStr); if(isNaN(d)) return dateStr||''; return `${d.getDate()} ${MONTHS_GEN[d.getMonth()]}`; }
+    function renderHome(){
+      const readyCount=draftsData.filter(d=>d.status==='ready'||d.status==='published').length;
+      document.getElementById('stat-ready-count').textContent=readyCount;
+      document.getElementById('stat-events-count').textContent=eventsData.length;
+      const today=new Date(); today.setHours(0,0,0,0);
+      const upcoming=eventsData.filter(e=>e.date&&new Date(e.date)>=today).sort((a,b)=>a.date.localeCompare(b.date));
+      const nearest=upcoming[0];
+      document.getElementById('stat-nearest-date').textContent=nearest?formatShortDate(nearest.date):'—';
+      document.getElementById('stat-nearest-title').textContent=nearest?nearest.title:'Подій ще не додано';
+      const list=document.getElementById('home-events');
+      const items=upcoming.slice(0,5);
+      list.innerHTML=items.length?items.map(e=>{
+        const draft=draftsData.find(d=>d.title===e.title);
+        const statusText=draft?(STATUS_LABELS[draft.status]||draft.status):'немає чернетки';
+        const statusClass=draft?(draft.status==='ready'||draft.status==='published'?'ready':''):'auto';
+        const d=new Date(e.date); const day=isNaN(d)?'--':String(d.getDate()).padStart(2,'0'); const mon=isNaN(d)?'':MONTHS_SHORT[d.getMonth()];
+        return `<div class="event"><div class="date-box">${day}<br>${mon}</div><div><b>${escape(e.title)}</b><span>${escape(e.category||e.type||'')}</span></div><span class="status ${statusClass}">${escape(statusText)}</span></div>`;
+      }).join(''):'<div class="empty">Подій ще немає. Додай першу в календарі.</div>';
+    }
+
     document.getElementById('copy-text').onclick=async()=>{ try{await navigator.clipboard.writeText(document.getElementById('post-copy').value);toast('Текст скопійовано');}catch{document.getElementById('post-copy').select(); document.execCommand('copy');toast('Текст скопійовано');} };
-    document.getElementById('ready').onclick=()=>{document.getElementById('draft-state').textContent='Готово до публікації';toast('Чернетку позначено готовою');}; document.getElementById('download-preview').onclick=()=>toast('PNG стане доступним після підключення генератора зображень');
-    function renderCalendar(){ const grid=document.getElementById('calendar-grid'), names=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень']; document.getElementById('month-label').textContent=`${names[calendarMonth]} ${calendarYear}`; const start=(new Date(calendarYear,calendarMonth,1).getDay()+6)%7, days=new Date(calendarYear,calendarMonth+1,0).getDate(), prev=new Date(calendarYear,calendarMonth,0).getDate(); grid.innerHTML=''; for(let i=0;i<42;i++){const num=i<start?prev-start+i+1:i-start+1; const isCurrent=i>=start&&i<start+days; const day=document.createElement('div'); day.className='day'+(!isCurrent?' muted':'')+(isCurrent&&num===21?' today':''); day.innerHTML=`<span>${num}</span>`; if(isCurrent&&calendarMonth===7&&num===23)day.innerHTML+='<button class="cal-event auto">Нагадування: День Незалежності</button>'; if(isCurrent&&calendarMonth===7&&num===24)day.innerHTML+='<button class="cal-event holiday">День Незалежності</button>'; if(isCurrent&&calendarMonth===7&&num===31)day.innerHTML+='<button class="cal-event">Опитування студентів</button>'; grid.appendChild(day);} }
+    document.getElementById('download-preview').onclick=()=>toast('PNG стане доступним після підключення генератора зображень');
+    function renderCalendar(){
+      const grid=document.getElementById('calendar-grid'), names=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
+      document.getElementById('month-label').textContent=`${names[calendarMonth]} ${calendarYear}`;
+      const start=(new Date(calendarYear,calendarMonth,1).getDay()+6)%7, days=new Date(calendarYear,calendarMonth+1,0).getDate(), prev=new Date(calendarYear,calendarMonth,0).getDate();
+      grid.innerHTML='';
+      const todayStr=new Date().toISOString().slice(0,10);
+      for(let i=0;i<42;i++){
+        const num=i<start?prev-start+i+1:i-start+1;
+        const isCurrent=i>=start&&i<start+days;
+        const cellDate=isCurrent?`${calendarYear}-${String(calendarMonth+1).padStart(2,'0')}-${String(num).padStart(2,'0')}`:null;
+        const day=document.createElement('div');
+        day.className='day'+(!isCurrent?' muted':'')+(cellDate===todayStr?' today':'');
+        day.innerHTML=`<span>${num}</span>`;
+        if(isCurrent){
+          eventsData.filter(e=>e.date===cellDate).forEach(e=>{
+            const cls=e.type==='Свято'?'holiday':(e.type==='Нагадування'?'auto':'');
+            day.innerHTML+=`<button class="cal-event ${cls}" data-event-id="${e.id}">${escape(e.title)}</button>`;
+          });
+        }
+        grid.appendChild(day);
+      }
+      grid.querySelectorAll('[data-event-id]').forEach(b=>b.onclick=()=>{
+        const e=eventsData.find(x=>x.id===b.dataset.eventId); if(!e) return;
+        if(confirm(`Подія «${e.title}» (${e.date}).\n\nВидалити цю подію?`)) deleteEvent(e.id);
+      });
+    }
+    async function loadEvents(){
+      try{ const res=await fetch('/.netlify/functions/events'); eventsData=res.ok?await res.json():[]; }
+      catch(e){ console.error(e); eventsData=[]; }
+      renderCalendar(); renderHome();
+    }
+    async function deleteEvent(id){
+      try{ await fetch('/.netlify/functions/events?id='+encodeURIComponent(id),{method:'DELETE'}); await loadEvents(); toast('Подію видалено'); }
+      catch(e){ console.error(e); toast('Не вдалося видалити подію'); }
+    }
     document.getElementById('prev-month').onclick=()=>{calendarMonth--;if(calendarMonth<0){calendarMonth=11;calendarYear--;}renderCalendar();};document.getElementById('next-month').onclick=()=>{calendarMonth++;if(calendarMonth>11){calendarMonth=0;calendarYear++;}renderCalendar();};
-    const modal=document.getElementById('modal-back'),userModal=document.getElementById('user-modal'); document.getElementById('add-event').onclick=()=>modal.classList.add('open'); document.getElementById('close-modal').onclick=document.getElementById('cancel-modal').onclick=()=>modal.classList.remove('open'); document.getElementById('save-event').onclick=()=>{const title=document.getElementById('event-title').value||'Нова подія';toast('Подію додано: '+title);modal.classList.remove('open');};document.getElementById('add-user').onclick=()=>userModal.classList.add('open');document.querySelectorAll('.close-user').forEach(b=>b.onclick=()=>userModal.classList.remove('open'));document.getElementById('save-user').onclick=()=>{const name=document.getElementById('user-name').value||'Новий учасник';const role=document.getElementById('user-role').value;document.getElementById('team-list').insertAdjacentHTML('beforeend',`<tr><td><b>${escape(name)}</b><small>Запрошення створено</small></td><td><span class="role">${role}</span></td><td>${role==='Редактор'?'Створення й редагування':'Перегляд і копіювання'}</td><td><span class="status">запрошено</span></td><td><button class="btn ghost">Керувати</button></td></tr>`);userModal.classList.remove('open');toast('Запрошення підготовлено');};document.querySelectorAll('.open-draft').forEach(b=>b.onclick=()=>switchView('create'));
-    drawMenu(); selectTemplate(activeTemplate); renderCalendar(); lucide.createIcons();
+    const modal=document.getElementById('modal-back'),userModal=document.getElementById('user-modal');
+    document.getElementById('add-event').onclick=()=>modal.classList.add('open');
+    document.getElementById('close-modal').onclick=document.getElementById('cancel-modal').onclick=()=>modal.classList.remove('open');
+    document.getElementById('save-event').onclick=async()=>{
+      const title=document.getElementById('event-title').value.trim();
+      const date=document.getElementById('event-date').value;
+      const type=document.getElementById('event-type').value;
+      if(!title||!date){ toast('Вкажи назву і дату події'); return; }
+      const btn=document.getElementById('save-event'); btn.disabled=true;
+      try{
+        const res=await fetch('/.netlify/functions/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,date,type})});
+        if(!res.ok) throw new Error('save failed');
+        await loadEvents();
+        toast('Подію додано: '+title);
+        modal.classList.remove('open');
+        document.getElementById('event-title').value='';
+      }catch(err){ console.error(err); toast('Не вдалося зберегти подію'); }
+      finally{ btn.disabled=false; }
+    };
+    document.getElementById('add-user').onclick=()=>userModal.classList.add('open');document.querySelectorAll('.close-user').forEach(b=>b.onclick=()=>userModal.classList.remove('open'));document.getElementById('save-user').onclick=()=>{const name=document.getElementById('user-name').value||'Новий учасник';const role=document.getElementById('user-role').value;document.getElementById('team-list').insertAdjacentHTML('beforeend',`<tr><td><b>${escape(name)}</b><small>Запрошення створено</small></td><td><span class="role">${role}</span></td><td>${role==='Редактор'?'Створення й редагування':'Перегляд і копіювання'}</td><td><span class="status">запрошено</span></td><td><button class="btn ghost">Керувати</button></td></tr>`);userModal.classList.remove('open');toast('Запрошення підготовлено');};
+
+    (async function init(){
+      drawMenu();
+      selectTemplate(activeTemplate);
+      await Promise.all([loadDrafts(), loadEvents()]);
+      lucide.createIcons();
+    })();
   </script>
 </body>
 </
