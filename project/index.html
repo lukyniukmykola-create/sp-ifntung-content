@@ -58,9 +58,36 @@
     .empty { padding:35px; text-align:center; color:var(--muted); font-size:13px; }.modal-back { position:fixed; inset:0; background:rgba(9,25,41,.5); display:none; place-items:center; padding:18px; z-index:20; }.modal-back.open { display:grid; }.modal { max-width:480px; width:100%; background:#fff; border-radius:8px; padding:23px; box-shadow:0 18px 60px rgba(8,32,54,.2); }.modal .fields { margin-top:18px; }.modal-actions { display:flex; justify-content:flex-end; gap:9px; margin-top:18px; }.toast { position:fixed; right:24px; bottom:22px; background:#173c59; color:#fff; padding:12px 15px; border-radius:7px; font-size:13px; font-weight:700; transform:translateY(80px); opacity:0; transition:.22s; z-index:30; }.toast.show { opacity:1; transform:translateY(0); }
     @media (max-width:980px) { .app { grid-template-columns:74px minmax(0,1fr); }.sidebar { padding:22px 10px; }.brand { justify-content:center; padding:0; }.brand div:not(.avatar),.nav span,.sidebar-bottom .user div:not(.avatar),.help { display:none; }.nav button { justify-content:center; padding:0; }.topbar,.content { padding-left:22px; padding-right:22px; }.creator { grid-template-columns:1fr; }.template-menu { display:flex; overflow:auto; padding:8px; gap:4px; }.template-menu p { display:none; }.template { min-width:max-content; }.home-grid,.output { grid-template-columns:1fr; }.stats { grid-template-columns:repeat(2,1fr); } }
     @media (max-width:620px) { .app { display:block; }.sidebar { position:sticky; top:0; z-index:10; height:64px; padding:8px 10px; display:flex; flex-direction:row; align-items:center; gap:8px; }.brand { width:42px; }.brand img { width:37px; height:37px; }.nav { display:flex; overflow:auto; gap:3px; flex:1; }.nav button { flex:0 0 43px; min-height:43px; }.sidebar-bottom { display:none; }.topbar { height:62px; padding:0 15px; }.crumb { font-size:11px; }.top-actions .btn { display:none; }.content { padding:24px 15px; }.heading { display:grid; gap:14px; }.heading .btn { width:100%; }.stats { grid-template-columns:1fr 1fr; }.stat { min-height:110px; padding:14px; }.stat b { font-size:23px; }.event { grid-template-columns:36px minmax(0,1fr); }.event > .btn { display:none; }.fields { grid-template-columns:1fr; }.field.full { grid-column:auto; }.saved { width:100%; margin:0; }.output { gap:14px; }.day { min-height:76px; padding:5px; }.cal-event { font-size:9px; padding:4px; overflow:hidden; }.weekdays div { padding:0 2px 9px; font-size:10px; }.data-table th,.data-table td { padding:12px; }.preview-wrap,.post-text { padding:15px; } }
+
+    /* ---- Авторизація ---- */
+    .login-screen { display:none; position:fixed; inset:0; background:var(--nav); z-index:50; place-items:center; padding:20px; }
+    .login-card { background:#fff; border-radius:10px; padding:30px; max-width:380px; width:100%; box-shadow:0 20px 60px rgba(8,32,54,.35); }
+    .login-card .brand { justify-content:center; padding:0; margin-bottom:22px; }
+    .login-card .brand strong { color:var(--ink); font-size:15px; }
+    .login-card .brand span { color:var(--muted); }
+    .login-card .btn.primary { width:100%; margin-top:16px; min-height:44px; }
+    .login-error { color:#c64040; font-size:12px; margin-top:11px; min-height:16px; line-height:1.4; }
+    .user { position:relative; }
+    .logout-btn { margin-left:auto; width:32px; height:32px; border:1px solid #2e4d65; background:transparent; color:#b3c3d0; border-radius:7px; display:grid; place-items:center; }
+    .logout-btn:hover { color:#fff; border-color:#4a6d88; }
+    .logout-btn i { width:15px; height:15px; }
+    body:not(.authed) .app { display:none; }
+    body:not(.authed) .login-screen { display:grid; }
+    body.authed .login-screen { display:none; }
   </style>
 </head>
 <body>
+  <div class="login-screen" id="login-screen">
+    <div class="login-card">
+      <div class="brand"><img src="brand-griffin.png" alt="Логотип Студентського парламенту ІФНТУНГ"><div><strong>СП ІФНТУНГ</strong><span>Контент-центр</span></div></div>
+      <div class="fields">
+        <div class="field full"><label for="login-email">Email</label><input id="login-email" type="email" autocomplete="username"></div>
+        <div class="field full"><label for="login-password">Пароль</label><input id="login-password" type="password" autocomplete="current-password"></div>
+      </div>
+      <button class="btn primary" id="login-submit"><i data-lucide="log-in"></i>Увійти</button>
+      <div class="login-error" id="login-error"></div>
+    </div>
+  </div>
   <div class="app">
     <aside class="sidebar">
       <div class="brand"><img src="brand-griffin.png" alt="Логотип Студентського парламенту ІФНТУНГ"><div><strong>СП ІФНТУНГ</strong><span>Контент-центр</span></div></div>
@@ -72,7 +99,7 @@
         <button data-view="archive"><i data-lucide="archive"></i><span>Архів стилю</span></button>
         <button data-view="team"><i data-lucide="users-round"></i><span>Команда</span></button>
       </nav>
-      <div class="sidebar-bottom"><div class="user"><div class="avatar">ВК</div><div><b>Віктор</b><small>Власник</small></div></div><div class="help"><b>Telegram-бот</b>Нагадування: за день та о 08:30 у день публікації.</div></div>
+      <div class="sidebar-bottom"><div class="user"><div class="avatar" id="user-avatar">—</div><div><b id="user-name">—</b><small id="user-role">—</small></div><button class="logout-btn" id="logout-btn" title="Вийти"><i data-lucide="log-out"></i></button></div><div class="help"><b>Telegram-бот</b>Нагадування: за день та о 08:30 у день публікації.</div></div>
     </aside>
     <main class="main">
       <header class="topbar"><div class="crumb"><b id="crumb">Головна</b> <span>/ Контент-центр</span></div><div class="top-actions"><button class="icon-btn" aria-label="Нагадування"><i data-lucide="bell"></i><span class="dot"></span></button><button class="btn primary" data-go-create><i data-lucide="plus"></i>Новий пост</button></div></header>
@@ -94,13 +121,13 @@
 
         <section class="view" id="archive"><div class="heading"><div><h1>Архів стилю</h1><p class="lead">Опубліковані матеріали, на яких базується тон і структура майбутніх постів.</p></div><button class="btn"><i data-lucide="search"></i>Пошук</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Пост</th><th>Період</th><th>Шаблон</th><th>Стиль</th></tr></thead><tbody><tr><td><b>Безкоштовне відвідування басейну</b><small>Липень · наголос на місяці та літньому настрої</small></td><td>Липень 2026</td><td>Басейн</td><td><span class="role">#активність</span></td></tr><tr><td><b>Турнір з волейболу</b><small>Анонс з датою, часом, місцем і реєстрацією</small></td><td>Травень 2026</td><td>Змагання</td><td><span class="role">#активність</span></td></tr><tr><td><b>З Днем вишиванки</b><small>Святковий грифон у вишиванці</small></td><td>Травень 2026</td><td>Свято</td><td><span class="role">#привітання</span></td></tr></tbody></table></div></section>
 
-        <section class="view" id="team"><div class="heading"><div><h1>Команда і доступи</h1><p class="lead">Лише власник може давати або забирати доступ. Редактори створюють матеріали, переглядачі можуть лише читати й копіювати.</p></div><button class="btn primary" id="add-user"><i data-lucide="user-plus"></i>Додати людину</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Учасник</th><th>Роль</th><th>Права</th><th>Статус</th><th></th></tr></thead><tbody id="team-list"><tr><td><b>Віктор</b><small>Власник системи</small></td><td><span class="role">Власник</span></td><td>Повний доступ</td><td><span class="status ready">активний</span></td><td></td></tr><tr><td><b>Олена Коваль</b><small>Контент-команда</small></td><td><span class="role">Редактор</span></td><td>Створення й редагування</td><td><span class="status ready">активний</span></td><td><button class="btn ghost">Керувати</button></td></tr></tbody></table></div></section>
+        <section class="view" id="team"><div class="heading"><div><h1>Команда і доступи</h1><p class="lead">Лише власник може давати або забирати доступ. Редактори створюють матеріали, переглядачі можуть лише читати й копіювати.</p></div><button class="btn primary" id="add-user"><i data-lucide="user-plus"></i>Додати людину</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Учасник</th><th>Роль</th><th>Права</th><th>Статус</th><th></th></tr></thead><tbody id="team-list"><tr><td colspan="5" class="empty">Завантаження…</td></tr></tbody></table></div></section>
       </div>
     </main>
   </div>
 
   <div class="modal-back" id="modal-back"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="output-head"><h2 id="modal-title">Додати подію</h2><button class="icon-btn" id="close-modal" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="event-title">Назва події</label><input id="event-title" placeholder="Наприклад, День міста Івано-Франківськ"></div><div class="field"><label for="event-date">Дата</label><input id="event-date" type="date" value="2026-08-31"></div><div class="field"><label for="event-type">Тип</label><select id="event-type"><option>Свято</option><option>Захід</option><option>Нагадування</option></select></div></div><div class="modal-actions"><button class="btn" id="cancel-modal">Скасувати</button><button class="btn primary" id="save-event">Додати в календар</button></div></div></div>
-  <div class="modal-back" id="user-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="user-title"><div class="output-head"><h2 id="user-title">Дати доступ</h2><button class="icon-btn close-user" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="user-name">Імʼя або Telegram</label><input id="user-name" placeholder="Наприклад, Марія Бойко"></div><div class="field full"><label for="user-role">Роль</label><select id="user-role"><option>Редактор</option><option>Переглядач</option></select></div></div><div class="modal-actions"><button class="btn close-user">Скасувати</button><button class="btn primary" id="save-user">Надіслати запрошення</button></div></div></div>
+  <div class="modal-back" id="user-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="user-title"><div class="output-head"><h2 id="user-title">Додати людину</h2><button class="icon-btn close-user" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="user-name">Імʼя</label><input id="user-name" placeholder="Наприклад, Марія Бойко"></div><div class="field full"><label for="user-email">Email</label><input id="user-email" type="email" placeholder="maria@example.com"></div><div class="field full"><label for="user-password">Тимчасовий пароль</label><input id="user-password" type="text" placeholder="Задайте пароль для входу"></div><div class="field full"><label for="user-role">Роль</label><select id="user-role"><option value="admin">Адміністратор</option><option value="editor" selected>Редактор</option><option value="viewer">Переглядач</option></select></div><div class="field full" id="user-status-field" style="display:none"><label for="user-status">Статус</label><select id="user-status"><option value="active">Активний</option><option value="disabled">Вимкнено</option></select></div></div><div class="modal-actions"><button class="btn close-user">Скасувати</button><button class="btn primary" id="save-user">Додати людину</button></div></div></div>
   <div class="toast" id="toast">Збережено</div>
   <script>
     const socialFooter = "\n\nP. S. З любов'ю, СП ІФНТУНГ! 💙\n\n[Чат](https://t.me/+A5L5PvpNuuw0ZWQy) 🕺🏻 | [Insta](https://www.instagram.com/studparlament_ifntuog/) 🪩 | [Tiktok](https://www.tiktok.com/@studparlament?_t=8guz5XFVLbZ&_r=1) 🔥";
@@ -123,7 +150,39 @@
     const menu = document.getElementById('template-menu'), fields = document.getElementById('fields'), output = document.getElementById('output');
     let activeTemplate = 'holiday', calendarMonth = 7, calendarYear = 2026;
     let currentDraftId = null, currentDraftStatus = null;
-    let draftsData = [], eventsData = [];
+    let draftsData = [], eventsData = [], teamData = [];
+    let currentUser = null, editingUserId = null;
+    const ROLE_LABELS = { owner:'Власник', admin:'Адміністратор', editor:'Редактор', viewer:'Переглядач' };
+    const ROLE_RIGHTS = { owner:'Повний доступ', admin:'Пости й календар', editor:'Створення й редагування', viewer:'Перегляд і копіювання' };
+    function roleAllows(action){
+      if(!currentUser) return false;
+      const role = currentUser.role;
+      if(action==='manageCalendar') return role==='owner'||role==='admin';
+      if(action==='editPosts') return role==='owner'||role==='admin'||role==='editor';
+      if(action==='manageUsers') return role==='owner';
+      return false;
+    }
+    function initials(name){ return String(name||'').trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()||'?'; }
+    async function apiFetch(url, opts){
+      const res = await fetch(url, opts);
+      if(res.status===401){ document.body.classList.remove('authed'); throw new Error('unauthorized'); }
+      return res;
+    }
+    function applyRolePermissions(){
+      const teamNav = document.querySelector('[data-view="team"]');
+      if(teamNav) teamNav.style.display = roleAllows('manageUsers') ? '' : 'none';
+      const addEventBtn = document.getElementById('add-event');
+      if(addEventBtn) addEventBtn.style.display = roleAllows('manageCalendar') ? '' : 'none';
+      const canEdit = roleAllows('editPosts');
+      document.querySelectorAll('[data-go-create]').forEach(b=>b.style.display = canEdit ? '' : 'none');
+      const createNav = document.querySelector('[data-view="create"]');
+      if(createNav) createNav.style.display = canEdit ? '' : 'none';
+      ['save-draft','ready','generate-all','generate-text','generate-preview'].forEach(id=>{
+        const el=document.getElementById(id); if(el) el.style.display = canEdit ? '' : 'none';
+      });
+      const addUserBtn = document.getElementById('add-user');
+      if(addUserBtn) addUserBtn.style.display = roleAllows('manageUsers') ? '' : 'none';
+    }
     const toast = text => { const el=document.getElementById('toast'); el.textContent=text; el.classList.add('show'); setTimeout(()=>el.classList.remove('show'),2300); };
     const escape = value => String(value).replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
     function switchView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id)); document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id)); const labels={home:'Головна',create:'Створити пост',calendar:'Календар подій',drafts:'Чернетки',archive:'Архів стилю',team:'Команда'}; document.getElementById('crumb').textContent=labels[id]; window.scrollTo({top:0,behavior:'smooth'}); }
@@ -145,7 +204,7 @@
       else text=`✨ **${title}**\n\n${v.details || 'Додайте перевірені факти, і ШІ підготує текст у стилі СП ІФНТУНГ.'}${link}\n\n*${v.mood || 'Теплий студентський настрій'}*`;
       return text + socialFooter; }
     async function callAI(t,v){
-      const response = await fetch('/.netlify/functions/generate-text', {
+      const response = await apiFetch('/.netlify/functions/generate-text', {
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body: JSON.stringify({ templateName:t.name, templateDescription:t.description, fields:v })
@@ -192,7 +251,7 @@
       const payload={ id: currentDraftId||undefined, templateKey:activeTemplate, title: v.title||t.name, status, publishDate: v.date||'', author:'Віктор', fields:v, text };
       const btn=document.getElementById('save-draft'); btn.disabled=true;
       try{
-        const res=await fetch('/.netlify/functions/drafts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const res=await apiFetch('/.netlify/functions/drafts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
         if(!res.ok) throw new Error('save failed');
         const saved=await res.json();
         currentDraftId=saved.id; currentDraftStatus=saved.status;
@@ -207,7 +266,7 @@
     document.getElementById('ready').onclick=()=>saveDraft('ready');
 
     async function loadDrafts(){
-      try{ const res=await fetch('/.netlify/functions/drafts'); draftsData=res.ok?await res.json():[]; }
+      try{ const res=await apiFetch('/.netlify/functions/drafts'); draftsData=res.ok?await res.json():[]; }
       catch(e){ console.error(e); draftsData=[]; }
       renderDrafts(); renderHome();
     }
@@ -217,7 +276,8 @@
       tbody.innerHTML=draftsData.map(d=>{
         const t=templates[d.templateKey]||{name:'Чернетка'};
         const isReady=d.status==='ready'||d.status==='published';
-        return `<tr><td><b>${escape(d.title||t.name)}</b><small>${escape(d.author||'')}</small></td><td>${escape(d.publishDate||'—')}</td><td><span class="role">${escape(t.name)}</span></td><td><span class="status ${isReady?'ready':''}">${STATUS_LABELS[d.status]||d.status}</span></td><td><div class="table-actions"><button class="btn" data-open="${d.id}">Відкрити</button><button class="btn ghost" data-del-draft="${d.id}">Видалити</button></div></td></tr>`;
+        const delBtn = roleAllows('editPosts') ? `<button class="btn ghost" data-del-draft="${d.id}">Видалити</button>` : '';
+        return `<tr><td><b>${escape(d.title||t.name)}</b><small>${escape(d.author||'')}</small></td><td>${escape(d.publishDate||'—')}</td><td><span class="role">${escape(t.name)}</span></td><td><span class="status ${isReady?'ready':''}">${STATUS_LABELS[d.status]||d.status}</span></td><td><div class="table-actions"><button class="btn" data-open="${d.id}">Відкрити</button>${delBtn}</div></td></tr>`;
       }).join('');
       tbody.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>openDraft(b.dataset.open));
       tbody.querySelectorAll('[data-del-draft]').forEach(b=>b.onclick=()=>deleteDraft(b.dataset.delDraft));
@@ -240,7 +300,7 @@
     }
     async function deleteDraft(id){
       if(!confirm('Видалити цю чернетку?')) return;
-      try{ await fetch('/.netlify/functions/drafts?id='+encodeURIComponent(id),{method:'DELETE'}); if(currentDraftId===id) currentDraftId=null; await loadDrafts(); toast('Чернетку видалено'); }
+      try{ await apiFetch('/.netlify/functions/drafts?id='+encodeURIComponent(id),{method:'DELETE'}); if(currentDraftId===id) currentDraftId=null; await loadDrafts(); toast('Чернетку видалено'); }
       catch(e){ console.error(e); toast('Не вдалося видалити чернетку'); }
     }
     function resetCreator(){ currentDraftId=null; currentDraftStatus=null; selectTemplate(activeTemplate); }
@@ -291,17 +351,18 @@
         grid.appendChild(day);
       }
       grid.querySelectorAll('[data-event-id]').forEach(b=>b.onclick=()=>{
+        if(!roleAllows('manageCalendar')) return;
         const e=eventsData.find(x=>x.id===b.dataset.eventId); if(!e) return;
         if(confirm(`Подія «${e.title}» (${e.date}).\n\nВидалити цю подію?`)) deleteEvent(e.id);
       });
     }
     async function loadEvents(){
-      try{ const res=await fetch('/.netlify/functions/events'); eventsData=res.ok?await res.json():[]; }
+      try{ const res=await apiFetch('/.netlify/functions/events'); eventsData=res.ok?await res.json():[]; }
       catch(e){ console.error(e); eventsData=[]; }
       renderCalendar(); renderHome();
     }
     async function deleteEvent(id){
-      try{ await fetch('/.netlify/functions/events?id='+encodeURIComponent(id),{method:'DELETE'}); await loadEvents(); toast('Подію видалено'); }
+      try{ await apiFetch('/.netlify/functions/events?id='+encodeURIComponent(id),{method:'DELETE'}); await loadEvents(); toast('Подію видалено'); }
       catch(e){ console.error(e); toast('Не вдалося видалити подію'); }
     }
     document.getElementById('prev-month').onclick=()=>{calendarMonth--;if(calendarMonth<0){calendarMonth=11;calendarYear--;}renderCalendar();};document.getElementById('next-month').onclick=()=>{calendarMonth++;if(calendarMonth>11){calendarMonth=0;calendarYear++;}renderCalendar();};
@@ -315,7 +376,7 @@
       if(!title||!date){ toast('Вкажи назву і дату події'); return; }
       const btn=document.getElementById('save-event'); btn.disabled=true;
       try{
-        const res=await fetch('/.netlify/functions/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,date,type})});
+        const res=await apiFetch('/.netlify/functions/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,date,type})});
         if(!res.ok) throw new Error('save failed');
         await loadEvents();
         toast('Подію додано: '+title);
@@ -324,14 +385,123 @@
       }catch(err){ console.error(err); toast('Не вдалося зберегти подію'); }
       finally{ btn.disabled=false; }
     };
-    document.getElementById('add-user').onclick=()=>userModal.classList.add('open');document.querySelectorAll('.close-user').forEach(b=>b.onclick=()=>userModal.classList.remove('open'));document.getElementById('save-user').onclick=()=>{const name=document.getElementById('user-name').value||'Новий учасник';const role=document.getElementById('user-role').value;document.getElementById('team-list').insertAdjacentHTML('beforeend',`<tr><td><b>${escape(name)}</b><small>Запрошення створено</small></td><td><span class="role">${role}</span></td><td>${role==='Редактор'?'Створення й редагування':'Перегляд і копіювання'}</td><td><span class="status">запрошено</span></td><td><button class="btn ghost">Керувати</button></td></tr>`);userModal.classList.remove('open');toast('Запрошення підготовлено');};
+    document.querySelectorAll('.close-user').forEach(b=>b.onclick=()=>userModal.classList.remove('open'));
+    function openUserModal(user){
+      editingUserId = user ? user.id : null;
+      document.getElementById('user-title').textContent = user ? 'Керувати доступом' : 'Додати людину';
+      document.getElementById('user-name').value = user ? user.name : '';
+      document.getElementById('user-email').value = user ? user.email : '';
+      document.getElementById('user-email').disabled = !!user;
+      document.getElementById('user-password').value = '';
+      document.getElementById('user-password').placeholder = user ? 'Залиш порожнім, щоб не міняти' : 'Задайте пароль для входу';
+      document.getElementById('user-role').value = user ? user.role : 'editor';
+      document.getElementById('user-status-field').style.display = user ? '' : 'none';
+      document.getElementById('user-status').value = user ? user.status : 'active';
+      document.getElementById('save-user').textContent = user ? 'Зберегти зміни' : 'Додати людину';
+      userModal.classList.add('open');
+    }
+    document.getElementById('add-user').onclick=()=>openUserModal(null);
+    async function loadTeam(){
+      try{ const res=await apiFetch('/.netlify/functions/users'); teamData=res.ok?await res.json():[]; }
+      catch(e){ console.error(e); teamData=[]; }
+      renderTeam();
+    }
+    function renderTeam(){
+      const tbody=document.getElementById('team-list');
+      if(!teamData.length){ tbody.innerHTML='<tr><td colspan="5" class="empty">Ще немає жодного учасника.</td></tr>'; return; }
+      tbody.innerHTML=teamData.map(u=>{
+        const isOwner=u.role==='owner';
+        const actions=isOwner?'':`<button class="btn ghost" data-edit-user="${u.id}">Керувати</button><button class="btn ghost" data-del-user="${u.id}">Забрати</button>`;
+        return `<tr><td><b>${escape(u.name)}</b><small>${escape(u.email||'')}</small></td><td><span class="role">${ROLE_LABELS[u.role]||u.role}</span></td><td>${ROLE_RIGHTS[u.role]||''}</td><td><span class="status ${u.status==='active'?'ready':''}">${u.status==='active'?'активний':'вимкнено'}</span></td><td><div class="table-actions">${actions}</div></td></tr>`;
+      }).join('');
+      tbody.querySelectorAll('[data-edit-user]').forEach(b=>b.onclick=()=>openUserModal(teamData.find(u=>u.id===b.dataset.editUser)));
+      tbody.querySelectorAll('[data-del-user]').forEach(b=>b.onclick=()=>deleteUser(b.dataset.delUser));
+    }
+    document.getElementById('save-user').onclick=async()=>{
+      const name=document.getElementById('user-name').value.trim();
+      const email=document.getElementById('user-email').value.trim();
+      const password=document.getElementById('user-password').value;
+      const role=document.getElementById('user-role').value;
+      const status=document.getElementById('user-status').value;
+      if(!name||(!editingUserId&&(!email||!password))){ toast('Заповни імʼя, email і тимчасовий пароль'); return; }
+      const payload=editingUserId?{id:editingUserId,name,role,status,...(password?{password}:{})}:{name,email,password,role};
+      const btn=document.getElementById('save-user'); btn.disabled=true;
+      try{
+        const res=await apiFetch('/.netlify/functions/users',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+        const data=await res.json();
+        if(!res.ok){ toast(data.error||'Не вдалося зберегти'); return; }
+        userModal.classList.remove('open');
+        toast(editingUserId?'Дані оновлено':'Людину додано');
+        await loadTeam();
+      }catch(err){ console.error(err); toast('Помилка мережі'); }
+      finally{ btn.disabled=false; }
+    };
+    async function deleteUser(id){
+      if(!confirm('Забрати доступ цій людині?')) return;
+      try{
+        const res=await apiFetch('/.netlify/functions/users?id='+encodeURIComponent(id),{method:'DELETE'});
+        const data=await res.json();
+        if(!res.ok){ toast(data.error||'Не вдалося видалити'); return; }
+        await loadTeam();
+        toast('Доступ забрано');
+      }catch(e){ console.error(e); toast('Помилка мережі'); }
+    }
+
+    function updateUserBadge(){
+      document.getElementById('user-avatar').textContent = initials(currentUser.name);
+      document.getElementById('user-name').textContent = currentUser.name;
+      document.getElementById('user-role').textContent = ROLE_LABELS[currentUser.role]||currentUser.role;
+    }
+    async function afterLogin(){
+      document.body.classList.add('authed');
+      updateUserBadge();
+      applyRolePermissions();
+      const loads=[loadDrafts(), loadEvents()];
+      if(roleAllows('manageUsers')) loads.push(loadTeam());
+      await Promise.all(loads);
+      lucide.createIcons();
+    }
+    async function checkSession(){
+      try{
+        const res=await fetch('/.netlify/functions/auth');
+        if(res.ok){ currentUser=await res.json(); return true; }
+      }catch(e){ console.error(e); }
+      return false;
+    }
+    async function doLogin(){
+      const email=document.getElementById('login-email').value.trim();
+      const password=document.getElementById('login-password').value;
+      const errEl=document.getElementById('login-error');
+      errEl.textContent='';
+      if(!email||!password){ errEl.textContent='Вкажи email і пароль'; return; }
+      const btn=document.getElementById('login-submit'); btn.disabled=true; const orig=btn.innerHTML; btn.innerHTML='Входимо…';
+      try{
+        const res=await fetch('/.netlify/functions/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'login',email,password})});
+        const data=await res.json();
+        if(!res.ok){ errEl.textContent=data.error||'Не вдалося увійти'; return; }
+        currentUser=data;
+        document.getElementById('login-password').value='';
+        await afterLogin();
+      }catch(err){ console.error(err); errEl.textContent='Помилка мережі, спробуй ще раз'; }
+      finally{ btn.disabled=false; btn.innerHTML=orig; }
+    }
+    document.getElementById('login-submit').onclick=doLogin;
+    ['login-email','login-password'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); }));
+    document.getElementById('logout-btn').onclick=async()=>{
+      try{ await fetch('/.netlify/functions/auth',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'logout'})}); }
+      catch(e){ console.error(e); }
+      currentUser=null;
+      document.body.classList.remove('authed');
+      document.getElementById('login-password').value='';
+    };
 
     (async function init(){
       drawMenu();
       selectTemplate(activeTemplate);
-      await Promise.all([loadDrafts(), loadEvents()]);
       lucide.createIcons();
+      const ok=await checkSession();
+      if(ok) await afterLogin();
     })();
   </script>
 </body>
-</
+</html>
