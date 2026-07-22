@@ -16,13 +16,13 @@ const CORS_HEADERS = { 'Content-Type': 'application/json' };
 const WRITE_ROLES = ['owner', 'admin'];
 
 exports.handler = async (event) => {
-  const readGuard = requireRole(event, null);
+  const readGuard = await requireRole(event, null);
   if (!readGuard.ok) {
     return { statusCode: readGuard.statusCode, headers: CORS_HEADERS, body: JSON.stringify({ error: readGuard.error }) };
   }
 
   if (event.httpMethod !== 'GET') {
-    const writeGuard = requireRole(event, WRITE_ROLES);
+    const writeGuard = await requireRole(event, WRITE_ROLES);
     if (!writeGuard.ok) {
       return { statusCode: writeGuard.statusCode, headers: CORS_HEADERS, body: JSON.stringify({ error: writeGuard.error }) };
     }

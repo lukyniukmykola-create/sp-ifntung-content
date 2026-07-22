@@ -24,7 +24,7 @@ function publicUser(u) {
 }
 
 exports.handler = async (event) => {
-  const guard = requireRole(event, ['owner']);
+  const guard = await requireRole(event, ['owner']);
   if (!guard.ok) {
     return { statusCode: guard.statusCode, headers: JSON_HEADERS, body: JSON.stringify({ error: guard.error }) };
   }
@@ -81,11 +81,23 @@ exports.handler = async (event) => {
         };
       }
 
+      const { blobs } = await usersStore.list();
+      const existingUsers = await Promise.all(
+        blobs.map((b) => usersStore.get(b.key, { type: 'json' }).catch(() => null))
+      );
+      const normalizedEmail = String(data.email).trim().toLowerCase();
+      const emailTaken = existingUsers.some(
+        (user) => user && String(user.email).trim().toLowerCase() === normalizedEmail
+      );
+      if (emailTaken) {
+        return { statusCode: 409, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Користувач із таким email уже існує' }) };
+      }
+
       const id = `u_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
       const user = {
         id,
         name: data.name,
-        email: data.email,
+        email: normalizedEmail,
         role: data.role || 'viewer',
         status: 'active',
         passwordHash: hashPassword(data.password),

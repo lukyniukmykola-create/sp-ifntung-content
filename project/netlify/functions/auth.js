@@ -17,7 +17,7 @@ const { openStore } = require('../lib/store');
 const {
   verifyPassword,
   signSession,
-  getSessionFromEvent,
+  getSessionUserFromEvent,
   sessionCookieHeader,
   clearCookieHeader,
 } = require('../lib/auth');
@@ -37,14 +37,14 @@ async function findUserByEmail(email) {
 exports.handler = async (event) => {
   try {
     if (event.httpMethod === 'GET') {
-      const session = getSessionFromEvent(event);
-      if (!session) {
+      const user = await getSessionUserFromEvent(event);
+      if (!user) {
         return { statusCode: 401, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Немає сесії' }) };
       }
       return {
         statusCode: 200,
         headers: JSON_HEADERS,
-        body: JSON.stringify({ id: session.id, name: session.name, email: session.email, role: session.role }),
+        body: JSON.stringify(user),
       };
     }
 
@@ -82,10 +82,10 @@ exports.handler = async (event) => {
         // Власник — окремий випадок, credentials беруться напряму з env,
         // а не з users-store (щоб завжди був хоча б один робочий вхід).
         if (email.toLowerCase() === ownerEmail.trim().toLowerCase() && password === ownerPassword) {
-          user = { id: 'owner', name: 'Власник', email: ownerEmail, role: 'owner' };
+          user = { id: 'owner', name: process.env.OWNER_NAME || 'Власник', email: ownerEmail, role: 'owner' };
         } else {
           const stored = await findUserByEmail(email);
-          if (stored && stored.status !== 'inactive' && verifyPassword(password, stored.passwordHash)) {
+          if (stored && stored.status === 'active' && verifyPassword(password, stored.passwordHash)) {
             user = { id: stored.id, name: stored.name, email: stored.email, role: stored.role };
           }
         }
@@ -94,7 +94,7 @@ exports.handler = async (event) => {
           return { statusCode: 401, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Невірний email або пароль' }) };
         }
 
-        const token = signSession(user);
+        const token = signSession({ id: user.id });
         return {
           statusCode: 200,
           headers: { ...JSON_HEADERS, 'Set-Cookie': sessionCookieHeader(token) },

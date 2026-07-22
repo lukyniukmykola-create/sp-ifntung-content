@@ -46,7 +46,7 @@ exports.handler = async (event) => {
 
   // Генерація тексту витрачає квоту Gemini-ключа, тож доступна лише тим,
   // хто реально створює пости (viewer — лише перегляд і копіювання).
-  const guard = requireRole(event, ['owner', 'admin', 'editor']);
+  const guard = await requireRole(event, ['owner', 'admin', 'editor']);
   if (!guard.ok) {
     return { statusCode: guard.statusCode, body: JSON.stringify({ error: guard.error }) };
   }
@@ -89,7 +89,7 @@ ${fieldsList}
   }
 
   try {
-    const model = 'gemini-3.6-flash';
+    const model = 'gemini-2.5-flash';
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`,
       {
@@ -135,6 +135,6 @@ ${fieldsList}
     };
   } catch (err) {
     console.error('Function crashed:', err);
-    return { statusCode: 500, body: JSON.stringify({ error: err.message, stack: err.stack }) };
+    return { statusCode: 500, body: JSON.stringify({ error: 'Не вдалося згенерувати текст. Спробуйте ще раз трохи пізніше.' }) };
   }
 };
