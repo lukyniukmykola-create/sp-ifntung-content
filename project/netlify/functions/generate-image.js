@@ -18,7 +18,7 @@
 
 const { requireRole } = require('../lib/auth');
 
-const IMAGE_MODEL = 'gemini-3.6-flash-image';
+const IMAGE_MODEL = 'gemini-2.5-flash-image';
 
 function buildPrompt({ templateName, templateDescription, fields }) {
   const f = fields || {};
