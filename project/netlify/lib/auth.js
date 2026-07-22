@@ -7,6 +7,7 @@
 // (scrypt для паролів, HMAC-SHA256 для підпису сесії).
 
 const crypto = require('crypto');
+const { openStore } = require('./store');
 
 const SESSION_COOKIE = 'sp_session';
 const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 днів
@@ -82,6 +83,32 @@ function getSessionFromEvent(event) {
   return verifySession(cookies[SESSION_COOKIE]);
 }
 
+async function getCurrentUser(session) {
+  if (!session || !session.id) return null;
+
+  if (session.id === 'owner') {
+    const email = process.env.OWNER_EMAIL;
+    const name = process.env.OWNER_NAME || 'Власник';
+    return email ? { id: 'owner', name, email, role: 'owner', status: 'active' } : null;
+  }
+
+  const usersStore = openStore('users');
+  const user = await usersStore.get(session.id, { type: 'json' }).catch(() => null);
+  if (!user || user.status !== 'active') return null;
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    role: user.role,
+    status: user.status,
+  };
+}
+
+async function getSessionUserFromEvent(event) {
+  return getCurrentUser(getSessionFromEvent(event));
+}
+
 // NETLIFY_DEV=true виставляє сам Netlify CLI під час `netlify dev`.
 // Локально сайт зазвичай віддається по http://localhost — і кука з
 // прапорцем Secure у такому разі браузером просто ігнорується.
@@ -102,15 +129,15 @@ function clearCookieHeader() {
 // editor — створення і редагування постів;
 // viewer — лише перегляд і копіювання.
 
-function requireRole(event, allowedRoles) {
-  const session = getSessionFromEvent(event);
-  if (!session) {
+async function requireRole(event, allowedRoles) {
+  const user = await getSessionUserFromEvent(event);
+  if (!user) {
     return { ok: false, statusCode: 401, error: 'Потрібна авторизація' };
   }
-  if (allowedRoles && !allowedRoles.includes(session.role)) {
+  if (allowedRoles && !allowedRoles.includes(user.role)) {
     return { ok: false, statusCode: 403, error: 'Недостатньо прав для цієї дії' };
   }
-  return { ok: true, session };
+  return { ok: true, session: user };
 }
 
 module.exports = {
@@ -120,6 +147,7 @@ module.exports = {
   verifySession,
   parseCookies,
   getSessionFromEvent,
+  getSessionUserFromEvent,
   sessionCookieHeader,
   clearCookieHeader,
   requireRole,
