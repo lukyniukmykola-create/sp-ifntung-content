@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <style>
     :root { --blue:#1485dd; --blue-dark:#0870c4; --ink:#10243b; --nav:#0d1e30; --muted:#728194; --line:#dbe4ec; --soft:#f4f8fb; --white:#fff; --success:#1e9a68; --warm:#f6b73c; }
     * { box-sizing:border-box; }
@@ -119,7 +120,7 @@
 
         <section class="view" id="drafts"><div class="heading"><div><h1>Чернетки</h1><p class="lead">Підготовані матеріали, які ще не публікували в каналі.</p></div><button class="btn primary" data-go-create><i data-lucide="plus"></i>Новий пост</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Матеріал</th><th>Дата публікації</th><th>Тип</th><th>Статус</th><th></th></tr></thead><tbody id="draft-list"><tr><td colspan="5" class="empty">Завантаження…</td></tr></tbody></table></div></section>
 
-        <section class="view" id="archive"><div class="heading"><div><h1>Архів стилю</h1><p class="lead">Опубліковані матеріали, на яких базується тон і структура майбутніх постів.</p></div><button class="btn"><i data-lucide="search"></i>Пошук</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Пост</th><th>Період</th><th>Шаблон</th><th>Стиль</th></tr></thead><tbody><tr><td><b>Безкоштовне відвідування басейну</b><small>Липень · наголос на місяці та літньому настрої</small></td><td>Липень 2026</td><td>Басейн</td><td><span class="role">#активність</span></td></tr><tr><td><b>Турнір з волейболу</b><small>Анонс з датою, часом, місцем і реєстрацією</small></td><td>Травень 2026</td><td>Змагання</td><td><span class="role">#активність</span></td></tr><tr><td><b>З Днем вишиванки</b><small>Святковий грифон у вишиванці</small></td><td>Травень 2026</td><td>Свято</td><td><span class="role">#привітання</span></td></tr></tbody></table></div></section>
+        <section class="view" id="archive"><div class="heading"><div><h1>Архів стилю</h1><p class="lead">Готові й опубліковані матеріали, на яких базується тон і структура майбутніх постів.</p></div></div><div class="calendar-tools" style="margin-bottom:16px"><div class="field" style="min-width:220px;flex:1"><input id="archive-search" placeholder="Пошук за назвою або текстом…"></div><select id="archive-filter" style="border:1px solid #cfdbe5;border-radius:6px;padding:10px 11px;color:var(--ink);background:#fff;font-size:13px"><option value="">Усі шаблони</option></select></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Пост</th><th>Дата</th><th>Шаблон</th><th>Хештег</th></tr></thead><tbody id="archive-list"><tr><td colspan="4" class="empty">Завантаження…</td></tr></tbody></table></div></section>
 
         <section class="view" id="team"><div class="heading"><div><h1>Команда і доступи</h1><p class="lead">Лише власник може давати або забирати доступ. Редактори створюють матеріали, переглядачі можуть лише читати й копіювати.</p></div><button class="btn primary" id="add-user"><i data-lucide="user-plus"></i>Додати людину</button></div><div class="panel table-wrap"><table class="data-table"><thead><tr><th>Учасник</th><th>Роль</th><th>Права</th><th>Статус</th><th></th></tr></thead><tbody id="team-list"><tr><td colspan="5" class="empty">Завантаження…</td></tr></tbody></table></div></section>
       </div>
@@ -127,7 +128,7 @@
   </div>
 
   <div class="modal-back" id="modal-back"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="output-head"><h2 id="modal-title">Додати подію</h2><button class="icon-btn" id="close-modal" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="event-title">Назва події</label><input id="event-title" placeholder="Наприклад, День міста Івано-Франківськ"></div><div class="field"><label for="event-date">Дата</label><input id="event-date" type="date" value="2026-08-31"></div><div class="field"><label for="event-type">Тип</label><select id="event-type"><option>Свято</option><option>Захід</option><option>Нагадування</option></select></div></div><div class="modal-actions"><button class="btn" id="cancel-modal">Скасувати</button><button class="btn primary" id="save-event">Додати в календар</button></div></div></div>
-  <div class="modal-back" id="user-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="user-title"><div class="output-head"><h2 id="user-title">Додати людину</h2><button class="icon-btn close-user" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="user-name">Імʼя</label><input id="user-name" placeholder="Наприклад, Марія Бойко"></div><div class="field full"><label for="user-email">Email</label><input id="user-email" type="email" placeholder="maria@example.com"></div><div class="field full"><label for="user-password">Тимчасовий пароль</label><input id="user-password" type="text" placeholder="Задайте пароль для входу"></div><div class="field full"><label for="user-role">Роль</label><select id="user-role"><option value="admin">Адміністратор</option><option value="editor" selected>Редактор</option><option value="viewer">Переглядач</option></select></div><div class="field full" id="user-status-field" style="display:none"><label for="user-status">Статус</label><select id="user-status"><option value="active">Активний</option><option value="disabled">Вимкнено</option></select></div></div><div class="modal-actions"><button class="btn close-user">Скасувати</button><button class="btn primary" id="save-user">Додати людину</button></div></div></div>
+  <div class="modal-back" id="user-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="user-title"><div class="output-head"><h2 id="user-title">Додати людину</h2><button class="icon-btn close-user" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="member-name">Імʼя</label><input id="member-name" placeholder="Наприклад, Марія Бойко"></div><div class="field full"><label for="user-email">Email</label><input id="user-email" type="email" placeholder="maria@example.com"></div><div class="field full"><label for="user-password">Тимчасовий пароль</label><input id="user-password" type="text" placeholder="Задайте пароль для входу"></div><div class="field full"><label for="member-role">Роль</label><select id="member-role"><option value="admin">Адміністратор</option><option value="editor" selected>Редактор</option><option value="viewer">Переглядач</option></select></div><div class="field full" id="user-status-field" style="display:none"><label for="user-status">Статус</label><select id="user-status"><option value="active">Активний</option><option value="disabled">Вимкнено</option></select></div></div><div class="modal-actions"><button class="btn close-user">Скасувати</button><button class="btn primary" id="save-user">Додати людину</button></div></div></div>
   <div class="toast" id="toast">Збережено</div>
   <script>
     const socialFooter = "\n\nP. S. З любов'ю, СП ІФНТУНГ! 💙\n\n[Чат](https://t.me/+A5L5PvpNuuw0ZWQy) 🕺🏻 | [Insta](https://www.instagram.com/studparlament_ifntuog/) 🪩 | [Tiktok](https://www.tiktok.com/@studparlament?_t=8guz5XFVLbZ&_r=1) 🔥";
@@ -187,7 +188,10 @@
     const escape = value => String(value).replace(/[&<>"']/g,m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));
     function switchView(id){ document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id)); document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id)); const labels={home:'Головна',create:'Створити пост',calendar:'Календар подій',drafts:'Чернетки',archive:'Архів стилю',team:'Команда'}; document.getElementById('crumb').textContent=labels[id]; window.scrollTo({top:0,behavior:'smooth'}); }
     document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>switchView(b.dataset.view))); document.querySelectorAll('[data-go-create]').forEach(b=>b.addEventListener('click',()=>switchView('create')));
-    function drawMenu(){ Object.entries(templates).forEach(([key,t])=>{ const b=document.createElement('button'); b.className='template'; b.dataset.template=key; b.innerHTML=`<i data-lucide="${t.icon}"></i><span>${t.name}</span>`; b.addEventListener('click',()=>selectTemplate(key)); menu.appendChild(b); }); }
+    function drawMenu(){ Object.entries(templates).forEach(([key,t])=>{ const b=document.createElement('button'); b.className='template'; b.dataset.template=key; b.innerHTML=`<i data-lucide="${t.icon}"></i><span>${t.name}</span>`; b.addEventListener('click',()=>selectTemplate(key)); menu.appendChild(b); });
+      const archiveFilter=document.getElementById('archive-filter');
+      Object.entries(templates).forEach(([key,t])=>{ const o=document.createElement('option'); o.value=key; o.textContent=t.name; archiveFilter.appendChild(o); });
+    }
     function selectTemplate(key,{keepDraft}={}){ activeTemplate=key; const t=templates[key]; document.querySelectorAll('.template').forEach(b=>b.classList.toggle('active',b.dataset.template===key)); document.getElementById('form-name').textContent=t.name; document.getElementById('form-description').textContent=t.description; document.getElementById('form-tag').textContent=t.tag; fields.innerHTML=t.fields.map(([label,name,value,type])=>`<div class="field ${type==='textarea'?'full':''}"><label for="f-${name}">${label}</label>${type==='textarea'?`<textarea id="f-${name}" data-key="${name}">${escape(value)}</textarea>`:`<input id="f-${name}" data-key="${name}" type="${type}" value="${escape(value)}">`}</div>`).join(''); output.hidden=true; if(!keepDraft){ currentDraftId=null; currentDraftStatus=null; document.getElementById('draft-state').textContent='Нова чернетка'; document.getElementById('save-state').textContent=''; } }
     const values = () => Object.fromEntries([...fields.querySelectorAll('[data-key]')].map(i=>[i.dataset.key,i.value.trim()]));
     function makeText(t,v){ const title=v.title || 'Новий пост'; const link=v.link ? `\n\n🔗 [Посилання](${v.link}) 👈🏻` : ''; let text='';
@@ -268,7 +272,7 @@
     async function loadDrafts(){
       try{ const res=await apiFetch('/.netlify/functions/drafts'); draftsData=res.ok?await res.json():[]; }
       catch(e){ console.error(e); draftsData=[]; }
-      renderDrafts(); renderHome();
+      renderDrafts(); renderHome(); renderArchive();
     }
     function renderDrafts(){
       const tbody=document.getElementById('draft-list');
@@ -303,6 +307,23 @@
       try{ await apiFetch('/.netlify/functions/drafts?id='+encodeURIComponent(id),{method:'DELETE'}); if(currentDraftId===id) currentDraftId=null; await loadDrafts(); toast('Чернетку видалено'); }
       catch(e){ console.error(e); toast('Не вдалося видалити чернетку'); }
     }
+    function renderArchive(){
+      const tbody=document.getElementById('archive-list');
+      const q=(document.getElementById('archive-search').value||'').trim().toLowerCase();
+      const filterKey=document.getElementById('archive-filter').value;
+      let items=draftsData.filter(d=>d.status==='ready'||d.status==='published');
+      if(filterKey) items=items.filter(d=>d.templateKey===filterKey);
+      if(q) items=items.filter(d=>(d.title||'').toLowerCase().includes(q)||(d.text||'').toLowerCase().includes(q));
+      items=items.slice().sort((a,b)=>(b.updatedAt||'').localeCompare(a.updatedAt||''));
+      if(!items.length){ tbody.innerHTML='<tr><td colspan="4" class="empty">Нічого не знайдено. Познач чернетку «готовою до публікації», щоб вона зʼявилась в архіві.</td></tr>'; return; }
+      tbody.innerHTML=items.map(d=>{
+        const t=templates[d.templateKey]||{name:'Пост',hash:''};
+        const snippet=(d.text||'').replace(/\n+/g,' ').replace(/\*\*|\*|\[|\]/g,'').slice(0,90);
+        return `<tr><td><b>${escape(d.title||t.name)}</b><small>${escape(snippet)}${snippet.length>=90?'…':''}</small></td><td>${escape(d.publishDate||formatShortDate(d.updatedAt))}</td><td><span class="role">${escape(t.name)}</span></td><td><span class="role">${escape(t.hash||'')}</span></td></tr>`;
+      }).join('');
+    }
+    document.getElementById('archive-search').addEventListener('input',renderArchive);
+    document.getElementById('archive-filter').addEventListener('change',renderArchive);
     function resetCreator(){ currentDraftId=null; currentDraftStatus=null; selectTemplate(activeTemplate); }
     document.querySelectorAll('[data-go-create]').forEach(b=>b.addEventListener('click',()=>{ resetCreator(); switchView('create'); }));
 
@@ -328,7 +349,23 @@
     }
 
     document.getElementById('copy-text').onclick=async()=>{ try{await navigator.clipboard.writeText(document.getElementById('post-copy').value);toast('Текст скопійовано');}catch{document.getElementById('post-copy').select(); document.execCommand('copy');toast('Текст скопійовано');} };
-    document.getElementById('download-preview').onclick=()=>toast('PNG стане доступним після підключення генератора зображень');
+    document.getElementById('download-preview').onclick=async()=>{
+      const node=document.querySelector('.post-preview');
+      const btn=document.getElementById('download-preview'); const orig=btn.innerHTML;
+      btn.disabled=true; btn.innerHTML='Рендеримо…';
+      try{
+        const scale=1080/node.offsetWidth;
+        const canvas=await html2canvas(node,{backgroundColor:'#ffffff',scale,useCORS:true});
+        const name=(document.getElementById('preview-title').textContent||'post').toLowerCase()
+          .replace(/[^a-zа-яіїєґ0-9]+/gi,'-').replace(/^-+|-+$/g,'')||'post';
+        const link=document.createElement('a');
+        link.download=name+'.png';
+        link.href=canvas.toDataURL('image/png');
+        link.click();
+        toast('PNG завантажено (1080×1080)');
+      }catch(err){ console.error(err); toast('Не вдалося згенерувати PNG'); }
+      finally{ btn.disabled=false; btn.innerHTML=orig; }
+    };
     function renderCalendar(){
       const grid=document.getElementById('calendar-grid'), names=['Січень','Лютий','Березень','Квітень','Травень','Червень','Липень','Серпень','Вересень','Жовтень','Листопад','Грудень'];
       document.getElementById('month-label').textContent=`${names[calendarMonth]} ${calendarYear}`;
@@ -389,12 +426,12 @@
     function openUserModal(user){
       editingUserId = user ? user.id : null;
       document.getElementById('user-title').textContent = user ? 'Керувати доступом' : 'Додати людину';
-      document.getElementById('user-name').value = user ? user.name : '';
+      document.getElementById('member-name').value = user ? user.name : '';
       document.getElementById('user-email').value = user ? user.email : '';
       document.getElementById('user-email').disabled = !!user;
       document.getElementById('user-password').value = '';
       document.getElementById('user-password').placeholder = user ? 'Залиш порожнім, щоб не міняти' : 'Задайте пароль для входу';
-      document.getElementById('user-role').value = user ? user.role : 'editor';
+      document.getElementById('member-role').value = user ? user.role : 'editor';
       document.getElementById('user-status-field').style.display = user ? '' : 'none';
       document.getElementById('user-status').value = user ? user.status : 'active';
       document.getElementById('save-user').textContent = user ? 'Зберегти зміни' : 'Додати людину';
@@ -418,10 +455,10 @@
       tbody.querySelectorAll('[data-del-user]').forEach(b=>b.onclick=()=>deleteUser(b.dataset.delUser));
     }
     document.getElementById('save-user').onclick=async()=>{
-      const name=document.getElementById('user-name').value.trim();
+      const name=document.getElementById('member-name').value.trim();
       const email=document.getElementById('user-email').value.trim();
       const password=document.getElementById('user-password').value;
-      const role=document.getElementById('user-role').value;
+      const role=document.getElementById('member-role').value;
       const status=document.getElementById('user-status').value;
       if(!name||(!editingUserId&&(!email||!password))){ toast('Заповни імʼя, email і тимчасовий пароль'); return; }
       const payload=editingUserId?{id:editingUserId,name,role,status,...(password?{password}:{})}:{name,email,password,role};
