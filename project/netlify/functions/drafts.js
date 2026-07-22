@@ -7,10 +7,27 @@
 // DELETE /.netlify/functions/drafts?id=...   -> видалити чернетку
 
 const { openStore } = require('../lib/store');
+const { requireRole } = require('../lib/auth');
 
 const CORS_HEADERS = { 'Content-Type': 'application/json' };
 
+// GET доступний будь-якому автентифікованому користувачу (включно з viewer).
+// POST/DELETE — власнику, адміну й редактору (viewer лише переглядає й копіює).
+const WRITE_ROLES = ['owner', 'admin', 'editor'];
+
 exports.handler = async (event) => {
+  const readGuard = requireRole(event, null);
+  if (!readGuard.ok) {
+    return { statusCode: readGuard.statusCode, headers: CORS_HEADERS, body: JSON.stringify({ error: readGuard.error }) };
+  }
+
+  if (event.httpMethod !== 'GET') {
+    const writeGuard = requireRole(event, WRITE_ROLES);
+    if (!writeGuard.ok) {
+      return { statusCode: writeGuard.statusCode, headers: CORS_HEADERS, body: JSON.stringify({ error: writeGuard.error }) };
+    }
+  }
+
   const store = openStore('drafts');
 
   try {

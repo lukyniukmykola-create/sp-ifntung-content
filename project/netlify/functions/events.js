@@ -7,10 +7,27 @@
 // DELETE /.netlify/functions/events?id=...   -> видалити подію
 
 const { openStore } = require('../lib/store');
+const { requireRole } = require('../lib/auth');
 
 const CORS_HEADERS = { 'Content-Type': 'application/json' };
 
+// GET доступний будь-якому автентифікованому користувачу.
+// POST/DELETE (керування календарем) — лише власнику й адміну.
+const WRITE_ROLES = ['owner', 'admin'];
+
 exports.handler = async (event) => {
+  const readGuard = requireRole(event, null);
+  if (!readGuard.ok) {
+    return { statusCode: readGuard.statusCode, headers: CORS_HEADERS, body: JSON.stringify({ error: readGuard.error }) };
+  }
+
+  if (event.httpMethod !== 'GET') {
+    const writeGuard = requireRole(event, WRITE_ROLES);
+    if (!writeGuard.ok) {
+      return { statusCode: writeGuard.statusCode, headers: CORS_HEADERS, body: JSON.stringify({ error: writeGuard.error }) };
+    }
+  }
+
   const store = openStore('events');
 
   try {
