@@ -53,7 +53,7 @@
     .reminders { padding:15px 20px 20px; display:grid; gap:13px; }.reminder { padding:13px; background:#f7fbfe; border-left:3px solid var(--blue); }.reminder b { display:block; font-size:13px; margin-bottom:3px; }.reminder span { color:var(--muted); font-size:12px; line-height:1.45; }.bot-state { margin:0 20px 20px; background:#f0faf6; border:1px solid #cce9dc; padding:13px; display:flex; gap:10px; align-items:flex-start; color:#176a4b; font-size:12px; line-height:1.4; }.bot-state i { width:18px; flex:0 0 auto; }
     .creator { display:grid; grid-template-columns:250px minmax(0,1fr); gap:20px; }.template-menu { background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px; align-self:start; }.template-menu p { padding:9px 10px 12px; color:var(--muted); font-size:11px; font-weight:700; text-transform:uppercase; }.template { width:100%; border:0; background:transparent; color:#40596e; min-height:42px; padding:0 10px; display:flex; text-align:left; gap:10px; align-items:center; border-radius:6px; font-size:13px; font-weight:700; }.template:hover,.template.active { background:#edf7ff; color:#0975c8; }.template i { width:16px; }
     .generator { display:grid; gap:18px; }.form-card { padding:22px; }.form-title { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:20px; }.tag { color:#0975c8; background:#e7f4ff; border-radius:999px; padding:5px 9px; font-size:10px; font-weight:800; text-transform:uppercase; }.fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }.field { display:grid; gap:7px; }.field.full { grid-column:1/-1; }.field label { color:#5a6e80; font-size:12px; font-weight:700; }.field input,.field textarea,.field select { width:100%; border:1px solid #cfdbe5; border-radius:6px; padding:10px 11px; color:var(--ink); outline:0; background:#fff; font-size:13px; }.field textarea { min-height:82px; resize:vertical; line-height:1.45; }.field input:focus,.field textarea:focus,.field select:focus { border-color:var(--blue); box-shadow:0 0 0 3px #dff0fc; }.field .hint { color:#8a99a7; font-size:11px; margin-top:-2px; }.generator-actions { display:flex; flex-wrap:wrap; align-items:center; gap:9px; }.saved { color:var(--success); font-size:12px; font-weight:700; margin-left:auto; }
-    .output { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr); gap:18px; }.post-text { padding:20px; }.post-text textarea { width:100%; min-height:350px; margin-top:14px; border:1px solid #d3dee7; border-radius:6px; padding:13px; resize:vertical; color:#31495e; line-height:1.55; font-size:13px; }.output-head { display:flex; justify-content:space-between; align-items:center; gap:10px; }.preview-wrap { padding:20px; }.post-preview { aspect-ratio:1/1; background:#fff; border:1px solid #d7e3ec; overflow:hidden; position:relative; display:grid; grid-template-rows:1fr 34%; }.image-area { position:relative; background:#d8efff; display:flex; align-items:center; justify-content:center; overflow:hidden; }.image-area .sun { width:190px; height:190px; border-radius:50%; background:#fff2af; position:absolute; top:-50px; right:-37px; }.image-area .wave { width:150%; height:52%; position:absolute; bottom:-25%; left:-23%; border-radius:50% 50% 0 0; background:#8fd5ff; transform:rotate(-7deg); }.image-area .griffin { width:130px; height:130px; object-fit:contain; position:relative; z-index:1; filter:drop-shadow(0 10px 7px rgba(22,76,112,.18)); }.preview-bottom { padding:18px 20px 15px; position:relative; z-index:1; }.preview-title { color:var(--blue); font-weight:800; font-size:clamp(19px,2.2vw,31px); line-height:1.02; text-transform:uppercase; max-width:95%; }.preview-subtitle { color:#247fc9; font-size:14px; margin-top:12px; }.preview-brand { position:absolute; left:20px; bottom:14px; display:flex; align-items:center; gap:5px; color:var(--blue); font-weight:700; font-size:7px; }.preview-brand img { width:29px; height:29px; object-fit:contain; }.preview-hash { position:absolute; bottom:15px; right:18px; color:#197dcb; font-size:12px; font-style:italic; }.preview-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }.preview-actions .btn { min-height:36px; font-size:12px; }
+    .output { display:grid; grid-template-columns:minmax(0,1.05fr) minmax(300px,.95fr); gap:18px; }.post-text { padding:20px; }.post-text textarea { width:100%; min-height:350px; margin-top:14px; border:1px solid #d3dee7; border-radius:6px; padding:13px; resize:vertical; color:#31495e; line-height:1.55; font-size:13px; }.output-head { display:flex; justify-content:space-between; align-items:center; gap:10px; }.preview-wrap { padding:20px; }.post-preview { aspect-ratio:1/1; background:#fff; border:1px solid #d7e3ec; overflow:hidden; display:grid; grid-template-rows:58% 42%; }.image-area { position:relative; background:#d8efff; display:flex; align-items:center; justify-content:center; overflow:hidden; }.image-area .sun { width:190px; height:190px; border-radius:50%; background:#fff2af; position:absolute; top:-50px; right:-37px; }.image-area .wave { width:150%; height:52%; position:absolute; bottom:-25%; left:-23%; border-radius:50% 50% 0 0; background:#8fd5ff; transform:rotate(-7deg); }.image-area .griffin { width:92px; height:92px; object-fit:contain; position:relative; z-index:1; filter:drop-shadow(0 10px 7px rgba(22,76,112,.18)); }.uploaded-image { position:absolute; inset:0; z-index:3; width:100%; height:100%; object-fit:cover; }.generated-image { position:absolute; inset:0; z-index:2; width:100%; height:100%; object-fit:cover; }.image-area.has-generated .sun,.image-area.has-generated .wave { display:none; }.preview-bottom { min-height:0; padding:17px 20px 13px; display:grid; grid-template-rows:minmax(0,1fr) auto; gap:9px; }.preview-copy { min-height:0; overflow:hidden; }.preview-title { color:var(--blue); font-weight:800; font-size:clamp(18px,2.15vw,30px); line-height:1.04; text-transform:uppercase; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:3; overflow:hidden; }.preview-subtitle { color:#247fc9; font-size:13px; margin-top:9px; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }.preview-meta { min-height:30px; display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }.preview-brand { display:flex; align-items:center; gap:5px; color:var(--blue); font-weight:700; font-size:7px; line-height:1.15; }.preview-brand img { width:28px; height:28px; object-fit:contain; }.preview-hash { color:#197dcb; font-size:12px; font-style:italic; text-align:right; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }.preview-upload { margin-top:12px; padding:11px; border:1px dashed #b8cfdf; border-radius:7px; background:#f8fbfe; display:flex; align-items:center; justify-content:space-between; gap:10px; }.preview-upload small { color:#6f8293; font-size:11px; line-height:1.35; }.preview-upload input { display:none; }
     .calendar-tools { display:flex; gap:9px; flex-wrap:wrap; align-items:center; }.month { padding:19px 20px; }.weekdays,.calendar-grid { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); }.weekdays div { color:#8697a7; font-size:11px; font-weight:700; padding:0 8px 12px; text-align:center; }.calendar-grid { border-top:1px solid var(--line); border-left:1px solid var(--line); }.day { min-height:119px; padding:9px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); color:#6b7c8d; font-size:12px; }.day.muted { color:#bdc8d1; background:#fbfcfd; }.day.today { background:#f1f9ff; }.day > span { font-weight:700; }.cal-event { display:block; width:100%; text-align:left; margin-top:8px; padding:6px; background:#e7f4ff; color:#1779c5; border:0; border-radius:5px; font-size:10px; font-weight:800; line-height:1.25; }.cal-event.holiday { background:#eaf7ef; color:#198052; }.cal-event.auto { background:#fff6df; color:#9c690a; }
     .table-wrap { overflow:auto; }.data-table { width:100%; border-collapse:collapse; }.data-table th,.data-table td { padding:15px 18px; border-bottom:1px solid #e5edf3; text-align:left; font-size:13px; white-space:nowrap; }.data-table th { color:#8090a0; text-transform:uppercase; font-size:10px; letter-spacing:.04em; }.data-table td b { display:block; }.data-table td small { color:#8393a1; display:block; margin-top:3px; font-size:11px; }.table-actions { display:flex; justify-content:flex-end; gap:6px; }.role { border:0; color:#3d5c73; background:#f0f5f8; padding:5px 8px; border-radius:5px; font-size:11px; font-weight:700; }
     .empty { padding:35px; text-align:center; color:var(--muted); font-size:13px; }.modal-back { position:fixed; inset:0; background:rgba(9,25,41,.5); display:none; place-items:center; padding:18px; z-index:20; }.modal-back.open { display:grid; }.modal { max-width:480px; width:100%; background:#fff; border-radius:8px; padding:23px; box-shadow:0 18px 60px rgba(8,32,54,.2); }.modal .fields { margin-top:18px; }.modal-actions { display:flex; justify-content:flex-end; gap:9px; margin-top:18px; }.toast { position:fixed; right:24px; bottom:22px; background:#173c59; color:#fff; padding:12px 15px; border-radius:7px; font-size:13px; font-weight:700; transform:translateY(80px); opacity:0; transition:.22s; z-index:30; }.toast.show { opacity:1; transform:translateY(0); }
@@ -106,14 +106,14 @@
       <header class="topbar"><div class="crumb"><b id="crumb">Головна</b> <span>/ Контент-центр</span></div><div class="top-actions"><button class="icon-btn" aria-label="Нагадування"><i data-lucide="bell"></i><span class="dot"></span></button><button class="btn primary" data-go-create><i data-lucide="plus"></i>Новий пост</button></div></header>
       <div class="content">
         <section class="view active" id="home">
-          <div class="heading"><div><h1>Доброго дня, Вікторе</h1><p class="lead">Все для наступного посту вже в одному місці: ідея, текст, превʼю та нагадування.</p></div><button class="btn primary" data-go-create><i data-lucide="sparkles"></i>Створити пост</button></div>
+          <div class="heading"><div><h1 id="home-greeting">Доброго дня</h1><p class="lead">Все для наступного посту вже в одному місці: ідея, текст, превʼю та нагадування.</p></div><button class="btn primary" data-go-create><i data-lucide="sparkles"></i>Створити пост</button></div>
           <div class="stats"><div class="stat featured"><label>Найближчий пост</label><b id="stat-nearest-date">—</b><small id="stat-nearest-title">Подій ще не додано</small></div><div class="stat"><label>Готові чернетки</label><b id="stat-ready-count">0</b><small>Текст і превʼю перевірені</small></div><div class="stat"><label>Нагадування бота</label><b>08:30</b><small>У день публікації</small></div><div class="stat"><label>Календар</label><b id="stat-events-count">0</b><small>Подій у базі</small></div></div>
           <div class="home-grid"><div class="panel"><div class="panel-head"><h2>Найближчі матеріали</h2><button class="btn ghost" data-view="calendar">Відкрити календар <i data-lucide="arrow-up-right"></i></button></div><div class="event-list" id="home-events"><div class="empty">Завантаження…</div></div></div><div class="panel"><div class="panel-head"><h2>Нагадування</h2><button class="btn ghost" data-view="drafts">Чернетки</button></div><div class="reminders"><div class="reminder"><b>За день до публікації</b><span>Бот надішле тему, короткий опис, текст і превʼю.</span></div><div class="reminder"><b>О 08:30 у день посту</b><span>Повторно нагадає, що матеріал пора опублікувати.</span></div></div><div class="bot-state"><i data-lucide="bot"></i><span><b>Бот буде підʼєднано на наступному етапі.</b><br>Сценарій уже готовий у системі.</span></div></div></div>
         </section>
 
         <section class="view" id="create">
           <div class="heading"><div><h1>Створити пост</h1><p class="lead">Оберіть сценарій, додайте перевірені факти, а система підготує чернетку у вашому стилі.</p></div><span class="tag" id="draft-state">Нова чернетка</span></div>
-          <div class="creator"><aside class="template-menu" id="template-menu"><p>Шаблон посту</p></aside><div class="generator"><div class="panel form-card"><div class="form-title"><div><h2 id="form-name">Оберіть шаблон</h2><p class="lead" id="form-description">Поля зʼявляться тут. Усі важливі факти можна буде відредагувати перед генерацією.</p></div><span class="tag" id="form-tag">Шаблон</span></div><div class="fields" id="fields"></div></div><div class="generator-actions"><button class="btn primary" id="generate-all"><i data-lucide="sparkles"></i>Згенерувати текст і превʼю</button><button class="btn" id="generate-text"><i data-lucide="text"></i>Лише текст</button><button class="btn" id="generate-preview"><i data-lucide="image"></i>Лише превʼю</button><button class="btn ghost" id="save-draft"><i data-lucide="save"></i>Зберегти</button><span class="saved" id="save-state"></span></div><div class="output" id="output" hidden><div class="panel post-text"><div class="output-head"><h2>Текст для Telegram</h2><button class="btn" id="copy-text"><i data-lucide="copy"></i>Скопіювати</button></div><textarea id="post-copy" aria-label="Текст посту"></textarea></div><div class="panel preview-wrap"><div class="output-head"><h2>Превʼю посту</h2><span class="tag">1080 × 1080</span></div><div class="post-preview"><div class="image-area"><div class="sun"></div><div class="wave"></div><img class="griffin" src="brand-griffin.png" alt="Грифон Студентського парламенту"></div><div class="preview-bottom"><div class="preview-title" id="preview-title">ОБЕРІТЬ ШАБЛОН</div><div class="preview-subtitle" id="preview-subtitle">Студентський парламент ІФНТУНГ</div><div class="preview-brand"><img src="brand-griffin.png" alt=""><span>STUDENT PARLIAMENT<br>IFNTUOG</span></div><div class="preview-hash" id="preview-hash">#студпарламент</div></div></div><div class="preview-actions"><button class="btn" id="download-preview"><i data-lucide="download"></i>Завантажити PNG</button><button class="btn primary" id="ready"><i data-lucide="check"></i>Позначити готовим</button></div></div></div></div></div>
+          <div class="creator"><aside class="template-menu" id="template-menu"><p>Шаблон посту</p></aside><div class="generator"><div class="panel form-card"><div class="form-title"><div><h2 id="form-name">Оберіть шаблон</h2><p class="lead" id="form-description">Поля зʼявляться тут. Усі важливі факти можна буде відредагувати перед генерацією.</p></div><span class="tag" id="form-tag">Шаблон</span></div><div class="fields" id="fields"></div></div><div class="generator-actions"><button class="btn primary" id="generate-all"><i data-lucide="sparkles"></i>Згенерувати текст і превʼю</button><button class="btn" id="generate-text"><i data-lucide="text"></i>Лише текст</button><button class="btn" id="generate-preview"><i data-lucide="image"></i>Лише превʼю</button><button class="btn" id="generate-image"><i data-lucide="wand-2"></i>Зображення (ШІ)</button><button class="btn ghost" id="save-draft"><i data-lucide="save"></i>Зберегти</button><span class="saved" id="save-state"></span></div><div class="output" id="output" hidden><div class="panel post-text"><div class="output-head"><h2>Текст для Telegram</h2><button class="btn" id="copy-text"><i data-lucide="copy"></i>Скопіювати</button></div><textarea id="post-copy" aria-label="Текст посту"></textarea></div><div class="panel preview-wrap"><div class="output-head"><h2>Превʼю посту</h2><span class="tag">1080 × 1080</span></div><div class="post-preview"><div class="image-area"><div class="sun"></div><div class="wave"></div><img class="griffin" src="brand-griffin.png" alt="Грифон Студентського парламенту"><img class="generated-image" id="generated-image" alt="Згенероване ШІ зображення" hidden><img class="uploaded-image" id="uploaded-image" alt="Завантажене фото" hidden></div><div class="preview-bottom"><div class="preview-copy"><div class="preview-title" id="preview-title">ОБЕРІТЬ ШАБЛОН</div><div class="preview-subtitle" id="preview-subtitle">Студентський парламент ІФНТУНГ</div></div><div class="preview-meta"><div class="preview-brand"><img src="brand-griffin.png" alt=""><span>STUDENT PARLIAMENT<br>IFNTUOG</span></div><div class="preview-hash" id="preview-hash">#студпарламент</div></div></div></div><div class="preview-upload"><div><b>Власна фотографія</b><small id="image-upload-hint">PNG, JPG або WEBP до 1.5 МБ</small></div><div><label class="btn" for="image-upload"><i data-lucide="upload"></i>Завантажити</label><input id="image-upload" type="file" accept="image/png,image/jpeg,image/webp"><button class="btn ghost" id="remove-image" hidden>Прибрати</button></div></div><div class="preview-actions"><button class="btn" id="download-preview"><i data-lucide="download"></i>Завантажити PNG</button><button class="btn primary" id="ready"><i data-lucide="check"></i>Позначити готовим</button></div></div></div></div></div>
         </section>
 
         <section class="view" id="calendar"><div class="heading"><div><h1>Календар подій</h1><p class="lead">Важливі українські та локальні дати. Власник може додавати, змінювати й прибирати події.</p></div><div class="calendar-tools"><button class="btn" id="prev-month"><i data-lucide="chevron-left"></i></button><button class="btn" id="next-month"><i data-lucide="chevron-right"></i></button><button class="btn primary" id="add-event"><i data-lucide="plus"></i>Додати подію</button></div></div><div class="panel month"><div class="panel-head" style="padding:0 0 16px"><h2 id="month-label">Серпень 2026</h2><span class="tag">Автоподії увімкнено</span></div><div class="weekdays"><div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Нд</div></div><div class="calendar-grid" id="calendar-grid"></div></div></section>
@@ -127,8 +127,8 @@
     </main>
   </div>
 
-  <div class="modal-back" id="modal-back"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="output-head"><h2 id="modal-title">Додати подію</h2><button class="icon-btn" id="close-modal" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="event-title">Назва події</label><input id="event-title" placeholder="Наприклад, День міста Івано-Франківськ"></div><div class="field"><label for="event-date">Дата</label><input id="event-date" type="date" value="2026-08-31"></div><div class="field"><label for="event-type">Тип</label><select id="event-type"><option>Свято</option><option>Захід</option><option>Нагадування</option></select></div></div><div class="modal-actions"><button class="btn" id="cancel-modal">Скасувати</button><button class="btn primary" id="save-event">Додати в календар</button></div></div></div>
-  <div class="modal-back" id="user-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="user-title"><div class="output-head"><h2 id="user-title">Додати людину</h2><button class="icon-btn close-user" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="member-name">Імʼя</label><input id="member-name" placeholder="Наприклад, Марія Бойко"></div><div class="field full"><label for="user-email">Email</label><input id="user-email" type="email" placeholder="maria@example.com"></div><div class="field full"><label for="user-password">Тимчасовий пароль</label><input id="user-password" type="text" placeholder="Задайте пароль для входу"></div><div class="field full"><label for="member-role">Роль</label><select id="member-role"><option value="admin">Адміністратор</option><option value="editor" selected>Редактор</option><option value="viewer">Переглядач</option></select></div><div class="field full" id="user-status-field" style="display:none"><label for="user-status">Статус</label><select id="user-status"><option value="active">Активний</option><option value="disabled">Вимкнено</option></select></div></div><div class="modal-actions"><button class="btn close-user">Скасувати</button><button class="btn primary" id="save-user">Додати людину</button></div></div></div>
+  <div class="modal-back" id="modal-back"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="output-head"><h2 id="modal-title">Додати подію</h2><button class="icon-btn" id="close-modal" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="event-title">Назва події</label><input id="event-title" placeholder="Наприклад, День міста Івано-Франківськ"></div><div class="field"><label for="event-date">Дата</label><input id="event-date" type="date" value="2026-08-31"></div><div class="field"><label for="event-type">Тип</label><select id="event-type"><option>Свято</option><option>Захід</option><option>Нагадування</option></select></div></div><div class="modal-actions"><button class="btn danger" id="delete-event" hidden>Видалити</button><button class="btn" id="cancel-modal">Скасувати</button><button class="btn primary" id="save-event">Додати в календар</button></div></div></div>
+  <div class="modal-back" id="user-modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="user-title"><div class="output-head"><h2 id="user-title">Додати людину</h2><button class="icon-btn close-user" aria-label="Закрити"><i data-lucide="x"></i></button></div><div class="fields"><div class="field full"><label for="member-name">Імʼя</label><input id="member-name" placeholder="Наприклад, Марія Бойко"></div><div class="field full"><label for="user-email">Email</label><input id="user-email" type="email" placeholder="maria@example.com"></div><div class="field full"><label for="user-password">Тимчасовий пароль</label><input id="user-password" type="text" placeholder="Задайте пароль для входу"></div><div class="field full"><label for="member-role">Роль</label><select id="member-role"><option value="admin">Адміністратор</option><option value="editor" selected>Редактор</option><option value="viewer">Переглядач</option></select></div><div class="field full" id="user-status-field" style="display:none"><label for="user-status">Статус</label><select id="user-status"><option value="active">Активний</option><option value="inactive">Вимкнений</option></select></div></div><div class="modal-actions"><button class="btn close-user">Скасувати</button><button class="btn primary" id="save-user">Додати людину</button></div></div></div>
   <div class="toast" id="toast">Збережено</div>
   <script>
     const socialFooter = "\n\nP. S. З любов'ю, СП ІФНТУНГ! 💙\n\n[Чат](https://t.me/+A5L5PvpNuuw0ZWQy) 🕺🏻 | [Insta](https://www.instagram.com/studparlament_ifntuog/) 🪩 | [Tiktok](https://www.tiktok.com/@studparlament?_t=8guz5XFVLbZ&_r=1) 🔥";
@@ -140,19 +140,22 @@
       event:{name:'Анонс заходу',tag:'Активність',icon:'calendar-plus',description:'Запрошення на захід від факультету чи партнерів: дата, місце, реєстрація та головна причина прийти.',hash:'#активність',fields:[['Назва заходу','title','Технології майбутнього: 3D моделювання та друк','text'],['Дата і час','date','20–21 травня, 12:00','text'],['Місце','place','ауд. 4510в, Центр інноваційного розвитку','text'],['Посилання на реєстрацію','link','https://forms.gle/','url'],['Що буде на заході','details','Створення власної 3D-моделі, знайомство з 3D-друком і практика','textarea']]},
       report:{name:'Звітність із заходу',tag:'Звіт',icon:'party-popper',description:'Теплий текст після заходу: емоції, головні моменти та подяки.',hash:'#активність',fields:[['Назва заходу','title','3D моделювання та друк','text'],['Коли відбувся','date','20–21 травня','text'],['Головні моменти','details','Практика, власні моделі, нові знайомства та знання','textarea'],['Кому подякувати','thanks','Студентській раді ІІМР, викладачам і Центру інноваційного розвитку','textarea']]},
       tournament:{name:'Звітність з турніру',tag:'Спорт',icon:'trophy',description:'Підсумок змагань із місцем для партнерів, командного духу й головних моментів.',hash:'#активність',fields:[['Назва турніру','title','Турнір з волейболу','text'],['Вид спорту','sport','Волейбол','text'],['Головні моменти','details','Активна гра, підтримка команд, емоції та драйв','textarea'],['Партнери','partners','Animal Gym, Ізоляція, Рамен Карпатський, Nori','textarea'],['Посилання партнерів','links','Додайте посилання через кому, якщо є','text']]},
+      tournamentAnnouncement:{name:'Анонс турніру',tag:'Спорт',icon:'volleyball',description:'Запрошення на змагання з чіткими датою, місцем, умовами й реєстрацією.',hash:'#активність',fields:[['Назва турніру','title','Турнір з волейболу','text'],['Дата й час','date','21 травня, 13:00','text'],['Місце','place','Спортзал №2 Спорткомплексу ІФНТУНГ','text'],['Умови участі','details','6 гравців на полі + 2 заміни, стартовий внесок 400 грн з команди','textarea'],['Посилання на реєстрацію','link','https://forms.gle/','url']]},
       pool:{name:'Басейн',tag:'Активність',icon:'waves',description:'Щомісячний набір до басейну. Враховує місяць і сезонний настрій.',hash:'#активність',fields:[['Місяць','title','Серпень','text'],['Посилання на реєстрацію','link','https://forms.gle/','url'],['Умови','details','Безкоштовно один раз на тиждень для студентів ІФНТУНГ','textarea']]},
       trip:{name:'Поїздка',tag:'Подорож',icon:'mountain',description:'Анонс або нагадування про поїздку з ключовими деталями й реєстрацією.',hash:'#подорожі',fields:[['Назва поїздки','title','Поїздка в Карпати','text'],['Дата','date','23–24 травня','text'],['Вартість','price','1350 грн','text'],['Посилання на реєстрацію','link','https://forms.gle/','url'],['Що чекає учасників','details','Гори, нові знайомства, квест із призами і вечір з DJ','textarea']]},
+      tripReport:{name:'Звітність з поїздки',tag:'Подорож',icon:'map-pinned',description:'Теплий підсумок поїздки з головними моментами, подяками й відео, яке ви додасте самі.',hash:'#подорожі',fields:[['Назва поїздки','title','Поїздка в Карпати','text'],['Коли відбулася','date','23–24 травня','text'],['Найяскравіші моменти','details','Гори, квест, нові знайомства, спільний вечір і багато емоцій','textarea'],['Кому подякувати','thanks','Усім учасникам і партнерам поїздки','textarea']]},
       ad:{name:'Реклама закладу',tag:'Партнери',icon:'store',description:'Тепла рекомендація партнера чи закладу без рекламного канцеляриту.',hash:'#партнери',fields:[['Назва закладу','title','Пахке — хлібна майстерня','text'],['Посилання на Instagram','link','https://instagram.com/','url'],['Що варто згадати','details','Свіжа випічка, кава, затишок і хороший варіант перед парами','textarea']]},
       survey:{name:'Опитування',tag:'Опитування',icon:'clipboard-list',description:'Запрошення пройти форму: мета, дедлайн і посилання. Текст залишиться коротким і зрозумілим.',hash:'#опитування',fields:[['Хто проводить','organizer','НАК «Нафтогаз»','text'],['Тема','title','Опитування серед студентів','text'],['Посилання','link','https://forms.gle/','url'],['Дедлайн','date','31 серпня','text'],['Мета опитування','details','Дослідити ключові фактори вибору університету та спеціальності','textarea']]},
       voting:{name:'Голосування за університет',tag:'Університет',icon:'vote',description:'Заклик підтримати ІФНТУНГ у зовнішньому голосуванні.',hash:'#університет',fields:[['Назва голосування','title','Голосування за ІФНТУНГ','text'],['Дедлайн','date','29 квітня','text'],['Посилання','link','https://','url'],['Хто проводить','organizer','Журнал «Фокус»','text']]},
       fundraiser:{name:'Збір',tag:'Допомога',icon:'heart-handshake',description:'Чіткий і людяний пост для збору з ціллю, банкою та реквізитами.',hash:'#допомога',fields:[['На що збір','title','Автомобіль для стрілецької роти','text'],['Ціль','goal','200 000 грн','text'],['Посилання на банку','link','https://send.monobank.ua/jar/','url'],['Номер картки','card','5375 4112 0857 1385','text'],['Додатково','details','Будь-який донат і репост наближають нас до мети','textarea']]},
+      danger:{name:'Важливе попередження',tag:'Важливо',icon:'shield-alert',description:'Рідкісні інформаційні та безпекові повідомлення з перевіреними фактами й посиланням на офіційне джерело.',hash:'#незламність',fields:[['Тема попередження','title','Безпека в соціальних мережах','text'],['Перевірені факти','details','Опишіть лише перевірену інформацію, без припущень','textarea'],['Офіційне посилання','link','https://','url'],['Що потрібно зробити','action','Повідомити про ситуацію через офіційний чатбот','textarea']]},
       free:{name:'Вільний запит',tag:'ШІ-чернетка',icon:'message-square-plus',description:'Для рідкісних або нестандартних повідомлень. Додайте лише перевірені факти.',hash:'#студпарламент',fields:[['Тема','title','', 'text'],['Факти, які обов’язково згадати','details','', 'textarea'],['Посилання, якщо є','link','', 'url'],['Який настрій потрібен','mood','Теплий, студентський, щирий','text']]}
     };
     const menu = document.getElementById('template-menu'), fields = document.getElementById('fields'), output = document.getElementById('output');
     let activeTemplate = 'holiday', calendarMonth = 7, calendarYear = 2026;
     let currentDraftId = null, currentDraftStatus = null;
     let draftsData = [], eventsData = [], teamData = [];
-    let currentUser = null, editingUserId = null;
+    let currentUser = null, editingUserId = null, editingEventId = null, customImageData = '', aiImageData = '';
     const ROLE_LABELS = { owner:'Власник', admin:'Адміністратор', editor:'Редактор', viewer:'Переглядач' };
     const ROLE_RIGHTS = { owner:'Повний доступ', admin:'Пости й календар', editor:'Створення й редагування', viewer:'Перегляд і копіювання' };
     function roleAllows(action){
@@ -178,7 +181,7 @@
       document.querySelectorAll('[data-go-create]').forEach(b=>b.style.display = canEdit ? '' : 'none');
       const createNav = document.querySelector('[data-view="create"]');
       if(createNav) createNav.style.display = canEdit ? '' : 'none';
-      ['save-draft','ready','generate-all','generate-text','generate-preview'].forEach(id=>{
+      ['save-draft','ready','generate-all','generate-text','generate-preview','generate-image'].forEach(id=>{
         const el=document.getElementById(id); if(el) el.style.display = canEdit ? '' : 'none';
       });
       const addUserBtn = document.getElementById('add-user');
@@ -192,19 +195,42 @@
       const archiveFilter=document.getElementById('archive-filter');
       Object.entries(templates).forEach(([key,t])=>{ const o=document.createElement('option'); o.value=key; o.textContent=t.name; archiveFilter.appendChild(o); });
     }
-    function selectTemplate(key,{keepDraft}={}){ activeTemplate=key; const t=templates[key]; document.querySelectorAll('.template').forEach(b=>b.classList.toggle('active',b.dataset.template===key)); document.getElementById('form-name').textContent=t.name; document.getElementById('form-description').textContent=t.description; document.getElementById('form-tag').textContent=t.tag; fields.innerHTML=t.fields.map(([label,name,value,type])=>`<div class="field ${type==='textarea'?'full':''}"><label for="f-${name}">${label}</label>${type==='textarea'?`<textarea id="f-${name}" data-key="${name}">${escape(value)}</textarea>`:`<input id="f-${name}" data-key="${name}" type="${type}" value="${escape(value)}">`}</div>`).join(''); output.hidden=true; if(!keepDraft){ currentDraftId=null; currentDraftStatus=null; document.getElementById('draft-state').textContent='Нова чернетка'; document.getElementById('save-state').textContent=''; } }
+    function setCustomImage(dataUrl, fileName=''){
+      customImageData=dataUrl||'';
+      const image=document.getElementById('uploaded-image');
+      const remove=document.getElementById('remove-image');
+      const hint=document.getElementById('image-upload-hint');
+      image.hidden=!customImageData;
+      image.src=customImageData||'';
+      remove.hidden=!customImageData;
+      hint.textContent=customImageData ? `Використовується: ${fileName || 'завантажене фото'}` : (aiImageData ? 'Використовується зображення, згенероване ШІ' : 'PNG, JPG або WEBP до 1.5 МБ');
+    }
+    function setGeneratedImage(dataUrl){
+      aiImageData=dataUrl||'';
+      const img=document.getElementById('generated-image');
+      const area=document.querySelector('.image-area');
+      img.hidden=!aiImageData;
+      img.src=aiImageData||'';
+      area.classList.toggle('has-generated',!!aiImageData);
+      const hint=document.getElementById('image-upload-hint');
+      if(!customImageData) hint.textContent=aiImageData ? 'Використовується зображення, згенероване ШІ' : 'PNG, JPG або WEBP до 1.5 МБ';
+    }
+    function selectTemplate(key,{keepDraft}={}){ activeTemplate=key; const t=templates[key]; document.querySelectorAll('.template').forEach(b=>b.classList.toggle('active',b.dataset.template===key)); document.getElementById('form-name').textContent=t.name; document.getElementById('form-description').textContent=t.description; document.getElementById('form-tag').textContent=t.tag; fields.innerHTML=t.fields.map(([label,name,value,type])=>`<div class="field ${type==='textarea'?'full':''}"><label for="f-${name}">${label}</label>${type==='textarea'?`<textarea id="f-${name}" data-key="${name}">${escape(value)}</textarea>`:`<input id="f-${name}" data-key="${name}" type="${type}" value="${escape(value)}">`}</div>`).join(''); output.hidden=true; if(!keepDraft){ currentDraftId=null; currentDraftStatus=null; setCustomImage(''); setGeneratedImage(''); document.getElementById('image-upload').value=''; document.getElementById('draft-state').textContent='Нова чернетка'; document.getElementById('save-state').textContent=''; } }
     const values = () => Object.fromEntries([...fields.querySelectorAll('[data-key]')].map(i=>[i.dataset.key,i.value.trim()]));
     function makeText(t,v){ const title=v.title || 'Новий пост'; const link=v.link ? `\n\n🔗 [Посилання](${v.link}) 👈🏻` : ''; let text='';
       if(activeTemplate==='holiday') text=`🇺🇦 **Сьогодні — ${title}**\n\n*${v.idea || 'Важлива дата для кожного з нас'}*\n\nЦей день нагадує про те, що нас об’єднує, про цінності, які ми бережемо, і про силу бути разом 🫂\n\n*Нехай у кожному дні буде місце для вдячності, підтримки та віри в майбутнє України*\n\n**Вітаємо зі святом!** 💙💛`;
       else if(activeTemplate==='event') text=`✨ **${title}**\n\nЯкщо вам цікаво дізнаватися більше й пробувати нове — цей захід точно для вас 😉\n\n📆 ${v.date || 'Дата уточнюється'}\n📍 ${v.place || 'Місце уточнюється'}${link}\n\nПід час заходу на вас чекає: ${v.details || 'корисна практика й нові знайомства'}\n\n*Приходьте за досвідом, атмосферою і новими можливостями!* 🙌🏻`;
       else if(activeTemplate==='report') text=`✨ *${title} — це було про людей, нові знання й живу атмосферу*\n\n${v.details || 'Було багато практики, спілкування та моментів, які хочеться зберегти.'}\n\nДякуємо ${v.thanks || 'усім, хто долучився до події'} 🫂\n\n*Ділимось атмосферою заходу та з нетерпінням чекаємо нових зустрічей!*`;
       else if(activeTemplate==='tournament') text=`🏆 **${title} позаду, а спогади залишаються**\n\n💥 Подія пройшла саме так, як ми любимо: насичено, активно й енергійно. ${v.details || ''}\n\n*Дякуємо всім командам за гру та атмосферу справжнього драйву!* ⚡️\n\n🫂 Окрема подяка нашим партнерам за підтримку:\n${(v.partners||'Партнери').split(',').map(x=>'🔹 '+x.trim()).join('\n')}\n\n*З нетерпінням чекаємо наступних ігор!* 🫶🏻`;
+      else if(activeTemplate==='tournamentAnnouncement') text=`🏐 **Запрошуємо на ${title.toLowerCase()}**\n\n📆 ${v.date || 'Дата уточнюється'}\n📍 ${v.place || 'Місце уточнюється'}\n\n👥 ${v.details || 'Умови участі уточнюються'}${link}\n\n*На вас чекають емоції, командний дух і хороша атмосфера!* 🔥`;
       else if(activeTemplate==='pool') text=`☀️ *${title || 'Цей місяць'} — хороший час, щоб освіжитися, відпочити та додати руху у свої дні*\n\n🙌🏻 **Відкрито запис до басейну**\n\nСтуденти ІФНТУНГ можуть відвідувати басейн **безкоштовно один раз на тиждень**\n\n${v.details || ''}${link}\n\n❗️Кількість місць обмежена\n\n*Година в басейні може стати найкращою частиною вашого дня* 🫶🏻`;
       else if(activeTemplate==='ad') text=`☕️ *Місце, де хочеться трохи затриматись*\n\n**${title}** — це про ${v.details || 'смак, атмосферу й хороші моменти між парами'}\n\nЗавітайте, коли захочеться зробити свій день трохи теплішим 😉${link}`;
       else if(activeTemplate==='survey') text=`💻 *${v.organizer || 'Організатори'} проводить ${title.toLowerCase()}*\n\nМета — ${v.details || 'краще зрозуміти думку студентів'}\n\nПросимо пройти опитування за [посиланням](${v.link || 'https://forms.gle/'}) 👈🏻\n\n📅 До **${v.date || 'зазначеної дати'}**\n\n*Це займе кілька хвилин, але допоможе покращити важливі ініціативи* 🎓\n\n**Дякуємо за участь! 🚀**`;
       else if(activeTemplate==='voting') text=`✅ **${title}**\n\nТриває відкрите онлайн-голосування від ${v.organizer || 'організаторів'}\n\nЦе можливість показати, як *самі студенти оцінюють свій університет* 🏫\n\n📅 Голосування триває до **${v.date || 'зазначеної дати'}**\n\nСвій голос можна віддати за [посиланням](${v.link || 'https://'}) 👈🏻\n\nПідтримайте ІФНТУНГ — ваш голос має значення 🫶🏻`;
       else if(activeTemplate==='fundraiser') text=`*Давайте допоможемо нашим захисникам! 🕊️*\n\nМи відкриваємо збір на **${title}**\n\n❗️**ЦІЛЬ: ${v.goal || 'зазначити суму'}❗️**\n\n🔗 [Посилання на банку](${v.link || 'https://send.monobank.ua/jar/'})\n💳 Номер картки: ${v.card || 'зазначити картку'}\n\n*${v.details || 'Будь-яка допомога та репост важливі.'}* 🤲🏻\n\n**Слава Україні! 🇺🇦**`;
       else if(activeTemplate==='trip') text=`🏔️ **Нагадуємо про ${title.toLowerCase()}**\n\n📅 ${v.date || ''}\n💸 ${v.price || ''}${link}\n\nПопереду — ${v.details || 'нові враження, люди й моменти, які хочеться запам’ятати'} 🫂\n\n*Тож якщо ще думали — це ваш знак не відкладати на потім* 😉`;
+      else if(activeTemplate==='tripReport') text=`🥳 *${title} — це були дні, які точно не забудуться!*\n\n${v.details || 'Емоції, люди поруч і моменти, які залишаться з нами надовго.'}\n\nДякуємо ${v.thanks || 'кожному, хто був із нами'} 🫂\n\n*Ділимось атмосферою поїздки у відео!* 🎬`;
+      else if(activeTemplate==='danger') text=`⚠️ **${title}**\n\n${v.details || 'Перевірте деталі в офіційних джерелах.'}\n\n**Що варто зробити:** ${v.action || 'дотримуйтесь рекомендацій'}${link}\n\n*Бережіть себе й поширюйте лише перевірену інформацію.*`;
       else text=`✨ **${title}**\n\n${v.details || 'Додайте перевірені факти, і ШІ підготує текст у стилі СП ІФНТУНГ.'}${link}\n\n*${v.mood || 'Теплий студентський настрій'}*`;
       return text + socialFooter; }
     async function callAI(t,v){
@@ -249,10 +275,46 @@
     }
     document.getElementById('generate-all').onclick=()=>generate(); document.getElementById('generate-text').onclick=()=>generate('text'); document.getElementById('generate-preview').onclick=()=>generate('preview');
 
+    async function callImageAI(t,v){
+      const response = await apiFetch('/.netlify/functions/generate-image', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ templateName:t.name, templateDescription:t.description, fields:v })
+      });
+      if(!response.ok){ const err = await response.json().catch(()=>({})); throw new Error(err.error || 'Помилка сервера'); }
+      return response.json();
+    }
+    // Окрема кнопка: перегенерувати ЛИШЕ картинку, текст і поля лишаються без змін.
+    async function generateImage(){
+      const t=templates[activeTemplate], v=values();
+      const btn=document.getElementById('generate-image'); const originalLabel=btn.innerHTML;
+      btn.disabled=true; btn.innerHTML='Малюємо…';
+      const prevState=document.getElementById('draft-state').textContent;
+      document.getElementById('draft-state').textContent='Генерується зображення…';
+      try{
+        const result = await callImageAI(t,v);
+        if(!result.imageData) throw new Error('ШІ не повернув зображення');
+        document.getElementById('preview-title').textContent=(v.title||t.name).toUpperCase();
+        document.getElementById('preview-subtitle').textContent=activeTemplate==='pool' ? `набір студентів на ${String(v.title||'місяць').toLowerCase()}` : (v.date||t.tag);
+        document.getElementById('preview-hash').textContent=t.hash;
+        setGeneratedImage(result.imageData);
+        output.hidden=false;
+        document.getElementById('draft-state').textContent='Зображення згенеровано';
+        toast('Зображення згенеровано');
+      }catch(err){
+        console.error(err);
+        toast('Не вдалося згенерувати зображення: '+(err.message||'спробуйте ще раз'));
+        document.getElementById('draft-state').textContent=prevState||'Чернетка';
+      }finally{
+        btn.disabled=false; btn.innerHTML=originalLabel;
+      }
+    }
+    document.getElementById('generate-image').onclick=()=>generateImage();
+
     async function saveDraft(explicitStatus){
       const t=templates[activeTemplate], v=values(); const text=document.getElementById('post-copy').value||'';
       let status = explicitStatus || (currentDraftStatus==='ready'||currentDraftStatus==='published' ? currentDraftStatus : (text ? 'generated' : 'new'));
-      const payload={ id: currentDraftId||undefined, templateKey:activeTemplate, title: v.title||t.name, status, publishDate: v.date||'', author:'Віктор', fields:v, text };
+      const payload={ id: currentDraftId||undefined, templateKey:activeTemplate, title: v.title||t.name, status, publishDate: v.date||'', author:currentUser?.name||'', authorId:currentUser?.id||'', fields:v, text, imageData:customImageData||'', aiImageData:aiImageData||'' };
       const btn=document.getElementById('save-draft'); btn.disabled=true;
       try{
         const res=await apiFetch('/.netlify/functions/drafts',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
@@ -299,6 +361,8 @@
         document.getElementById('preview-hash').textContent=t.hash;
         output.hidden=false;
       }
+      setGeneratedImage(draft.aiImageData || '');
+      setCustomImage(draft.imageData || '', draft.imageData ? 'фото з чернетки' : '');
       document.getElementById('draft-state').textContent=STATUS_LABELS[draft.status]||'Чернетка';
       switchView('create');
     }
@@ -349,6 +413,30 @@
     }
 
     document.getElementById('copy-text').onclick=async()=>{ try{await navigator.clipboard.writeText(document.getElementById('post-copy').value);toast('Текст скопійовано');}catch{document.getElementById('post-copy').select(); document.execCommand('copy');toast('Текст скопійовано');} };
+    document.getElementById('image-upload').addEventListener('change',(event)=>{
+      const file=event.target.files && event.target.files[0];
+      if(!file) return;
+      const allowed=['image/png','image/jpeg','image/webp'];
+      if(!allowed.includes(file.type)){
+        event.target.value='';
+        toast('Підтримуються лише PNG, JPG або WEBP');
+        return;
+      }
+      if(file.size>1.5*1024*1024){
+        event.target.value='';
+        toast('Фото має бути не більше 1.5 МБ');
+        return;
+      }
+      const reader=new FileReader();
+      reader.onload=()=>setCustomImage(String(reader.result||''),file.name);
+      reader.onerror=()=>toast('Не вдалося прочитати фото');
+      reader.readAsDataURL(file);
+    });
+    document.getElementById('remove-image').onclick=()=>{
+      setCustomImage('');
+      document.getElementById('image-upload').value='';
+      toast('Фото прибрано з чернетки');
+    };
     document.getElementById('download-preview').onclick=async()=>{
       const node=document.querySelector('.post-preview');
       const btn=document.getElementById('download-preview'); const orig=btn.innerHTML;
@@ -389,8 +477,7 @@
       }
       grid.querySelectorAll('[data-event-id]').forEach(b=>b.onclick=()=>{
         if(!roleAllows('manageCalendar')) return;
-        const e=eventsData.find(x=>x.id===b.dataset.eventId); if(!e) return;
-        if(confirm(`Подія «${e.title}» (${e.date}).\n\nВидалити цю подію?`)) deleteEvent(e.id);
+        const eventData=eventsData.find(x=>x.id===b.dataset.eventId); if(eventData) openEventModal(eventData);
       });
     }
     async function loadEvents(){
@@ -404,7 +491,17 @@
     }
     document.getElementById('prev-month').onclick=()=>{calendarMonth--;if(calendarMonth<0){calendarMonth=11;calendarYear--;}renderCalendar();};document.getElementById('next-month').onclick=()=>{calendarMonth++;if(calendarMonth>11){calendarMonth=0;calendarYear++;}renderCalendar();};
     const modal=document.getElementById('modal-back'),userModal=document.getElementById('user-modal');
-    document.getElementById('add-event').onclick=()=>modal.classList.add('open');
+    function openEventModal(eventData){
+      editingEventId=eventData?.id||null;
+      document.getElementById('modal-title').textContent=eventData?'Редагувати подію':'Додати подію';
+      document.getElementById('event-title').value=eventData?.title||'';
+      document.getElementById('event-date').value=eventData?.date||'';
+      document.getElementById('event-type').value=eventData?.type||'Свято';
+      document.getElementById('save-event').textContent=eventData?'Зберегти зміни':'Додати в календар';
+      document.getElementById('delete-event').hidden=!eventData;
+      modal.classList.add('open');
+    }
+    document.getElementById('add-event').onclick=()=>openEventModal(null);
     document.getElementById('close-modal').onclick=document.getElementById('cancel-modal').onclick=()=>modal.classList.remove('open');
     document.getElementById('save-event').onclick=async()=>{
       const title=document.getElementById('event-title').value.trim();
@@ -413,10 +510,10 @@
       if(!title||!date){ toast('Вкажи назву і дату події'); return; }
       const btn=document.getElementById('save-event'); btn.disabled=true;
       try{
-        const res=await apiFetch('/.netlify/functions/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title,date,type})});
+        const res=await apiFetch('/.netlify/functions/events',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:editingEventId||undefined,title,date,type})});
         if(!res.ok) throw new Error('save failed');
         await loadEvents();
-        toast('Подію додано: '+title);
+        toast(editingEventId?'Подію оновлено':'Подію додано: '+title);
         modal.classList.remove('open');
         document.getElementById('event-title').value='';
       }catch(err){ console.error(err); toast('Не вдалося зберегти подію'); }
@@ -473,6 +570,11 @@
       }catch(err){ console.error(err); toast('Помилка мережі'); }
       finally{ btn.disabled=false; }
     };
+    document.getElementById('delete-event').onclick=async()=>{
+      if(!editingEventId || !confirm('Видалити цю подію?')) return;
+      await deleteEvent(editingEventId);
+      modal.classList.remove('open');
+    };
     async function deleteUser(id){
       if(!confirm('Забрати доступ цій людині?')) return;
       try{
@@ -488,6 +590,7 @@
       document.getElementById('user-avatar').textContent = initials(currentUser.name);
       document.getElementById('user-name').textContent = currentUser.name;
       document.getElementById('user-role').textContent = ROLE_LABELS[currentUser.role]||currentUser.role;
+      document.getElementById('home-greeting').textContent = `Доброго дня, ${currentUser.name}`;
     }
     async function afterLogin(){
       document.body.classList.add('authed');
