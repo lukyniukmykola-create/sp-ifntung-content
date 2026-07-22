@@ -1,126 +1,113 @@
-// netlify/lib/auth.js
+// netlify/functions/auth.js
 //
-// Спільні функції авторизації: хешування паролів, підпис/перевірка
-// сесійних токенів (кука), парсинг кук, перевірка ролі.
+// Логін / логаут / перевірка поточної сесії.
 //
-// Без зовнішніх залежностей — тільки вбудований Node.js `crypto`
-// (scrypt для паролів, HMAC-SHA256 для підпису сесії).
+// GET  /.netlify/functions/auth
+//   -> 200 { id, name, email, role }  якщо кука сесії валідна
+//   -> 401 { error }                  якщо сесії нема / протухла
+//
+// POST /.netlify/functions/auth
+//   body { action: 'login', email, password }
+//     -> звіряє з OWNER_EMAIL/OWNER_PASSWORD (владелец) АБО з users-store
+//     -> ставить підписану HttpOnly-куку і повертає { id, name, email, role }
+//   body { action: 'logout' }
+//     -> чистить куку
 
-const crypto = require('crypto');
-
-const SESSION_COOKIE = 'sp_session';
-const SESSION_TTL_MS = 30 * 24 * 60 * 60 * 1000; // 30 днів
-
-// ---------- Паролі ----------
-
-function hashPassword(password) {
-  const salt = crypto.randomBytes(16).toString('hex');
-  const hash = crypto.scryptSync(String(password), salt, 64).toString('hex');
-  return `${salt}:${hash}`;
-}
-
-function verifyPassword(password, stored) {
-  if (!stored || !stored.includes(':')) return false;
-  const [salt, hash] = stored.split(':');
-  const check = crypto.scryptSync(String(password), salt, 64).toString('hex');
-  const a = Buffer.from(hash, 'hex');
-  const b = Buffer.from(check, 'hex');
-  if (a.length !== b.length) return false;
-  return crypto.timingSafeEqual(a, b);
-}
-
-// ---------- Сесія (підписана кука, без БД сесій) ----------
-
-function getSecret() {
-  const secret = process.env.SESSION_SECRET;
-  if (!secret) {
-    throw new Error('SESSION_SECRET не налаштовано в Netlify (Site settings → Environment variables).');
-  }
-  return secret;
-}
-
-function signSession(payload) {
-  const secret = getSecret();
-  const body = { ...payload, exp: Date.now() + SESSION_TTL_MS };
-  const data = Buffer.from(JSON.stringify(body)).toString('base64url');
-  const sig = crypto.createHmac('sha256', secret).update(data).digest('base64url');
-  return `${data}.${sig}`;
-}
-
-function verifySession(token) {
-  if (!token || !token.includes('.')) return null;
-  try {
-    const secret = getSecret();
-    const [data, sig] = token.split('.');
-    const expected = crypto.createHmac('sha256', secret).update(data).digest('base64url');
-    const a = Buffer.from(sig);
-    const b = Buffer.from(expected);
-    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
-    const payload = JSON.parse(Buffer.from(data, 'base64url').toString('utf8'));
-    if (!payload.exp || payload.exp < Date.now()) return null;
-    return payload;
-  } catch {
-    return null;
-  }
-}
-
-function parseCookies(header) {
-  const out = {};
-  (header || '').split(';').forEach((part) => {
-    const idx = part.indexOf('=');
-    if (idx === -1) return;
-    const k = part.slice(0, idx).trim();
-    const v = part.slice(idx + 1).trim();
-    if (k) out[k] = decodeURIComponent(v);
-  });
-  return out;
-}
-
-function getSessionFromEvent(event) {
-  const header = event.headers && (event.headers.cookie || event.headers.Cookie);
-  const cookies = parseCookies(header);
-  return verifySession(cookies[SESSION_COOKIE]);
-}
-
-// NETLIFY_DEV=true виставляє сам Netlify CLI під час `netlify dev`.
-// Локально сайт зазвичай віддається по http://localhost — і кука з
-// прапорцем Secure у такому разі браузером просто ігнорується.
-function sessionCookieHeader(token) {
-  const maxAge = Math.floor(SESSION_TTL_MS / 1000);
-  const secureFlag = process.env.NETLIFY_DEV ? '' : ' Secure;';
-  return `${SESSION_COOKIE}=${token}; HttpOnly;${secureFlag} SameSite=Lax; Path=/; Max-Age=${maxAge}`;
-}
-
-function clearCookieHeader() {
-  const secureFlag = process.env.NETLIFY_DEV ? '' : ' Secure;';
-  return `${SESSION_COOKIE}=; HttpOnly;${secureFlag} SameSite=Lax; Path=/; Max-Age=0`;
-}
-
-// ---------- Ролі ----------
-// owner  — повний доступ, єдиний;
-// admin  — створення/редагування постів + керування календарем;
-// editor — створення і редагування постів;
-// viewer — лише перегляд і копіювання.
-
-function requireRole(event, allowedRoles) {
-  const session = getSessionFromEvent(event);
-  if (!session) {
-    return { ok: false, statusCode: 401, error: 'Потрібна авторизація' };
-  }
-  if (allowedRoles && !allowedRoles.includes(session.role)) {
-    return { ok: false, statusCode: 403, error: 'Недостатньо прав для цієї дії' };
-  }
-  return { ok: true, session };
-}
-
-module.exports = {
-  hashPassword,
+const { openStore } = require('../lib/store');
+const {
   verifyPassword,
   signSession,
-  verifySession,
-  parseCookies,
   getSessionFromEvent,
   sessionCookieHeader,
   clearCookieHeader,
-  requireRole,
+} = require('../lib/auth');
+
+const JSON_HEADERS = { 'Content-Type': 'application/json' };
+
+async function findUserByEmail(email) {
+  const store = openStore('users');
+  const { blobs } = await store.list();
+  const items = await Promise.all(
+    blobs.map((b) => store.get(b.key, { type: 'json' }).catch(() => null))
+  );
+  const norm = String(email).trim().toLowerCase();
+  return items.find((u) => u && String(u.email).trim().toLowerCase() === norm) || null;
+}
+
+exports.handler = async (event) => {
+  try {
+    if (event.httpMethod === 'GET') {
+      const session = getSessionFromEvent(event);
+      if (!session) {
+        return { statusCode: 401, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Немає сесії' }) };
+      }
+      return {
+        statusCode: 200,
+        headers: JSON_HEADERS,
+        body: JSON.stringify({ id: session.id, name: session.name, email: session.email, role: session.role }),
+      };
+    }
+
+    if (event.httpMethod === 'POST') {
+      const body = JSON.parse(event.body || '{}');
+
+      if (body.action === 'logout') {
+        return {
+          statusCode: 200,
+          headers: { ...JSON_HEADERS, 'Set-Cookie': clearCookieHeader() },
+          body: JSON.stringify({ ok: true }),
+        };
+      }
+
+      if (body.action === 'login') {
+        const email = String(body.email || '').trim();
+        const password = String(body.password || '');
+
+        if (!email || !password) {
+          return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: "Вкажіть email і пароль" }) };
+        }
+
+        const ownerEmail = process.env.OWNER_EMAIL;
+        const ownerPassword = process.env.OWNER_PASSWORD;
+        if (!ownerEmail || !ownerPassword) {
+          return {
+            statusCode: 500,
+            headers: JSON_HEADERS,
+            body: JSON.stringify({ error: 'OWNER_EMAIL / OWNER_PASSWORD не налаштовано в Netlify (Site settings → Environment variables).' }),
+          };
+        }
+
+        let user = null;
+
+        // Власник — окремий випадок, credentials беруться напряму з env,
+        // а не з users-store (щоб завжди був хоча б один робочий вхід).
+        if (email.toLowerCase() === ownerEmail.trim().toLowerCase() && password === ownerPassword) {
+          user = { id: 'owner', name: 'Власник', email: ownerEmail, role: 'owner' };
+        } else {
+          const stored = await findUserByEmail(email);
+          if (stored && stored.status !== 'inactive' && verifyPassword(password, stored.passwordHash)) {
+            user = { id: stored.id, name: stored.name, email: stored.email, role: stored.role };
+          }
+        }
+
+        if (!user) {
+          return { statusCode: 401, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Невірний email або пароль' }) };
+        }
+
+        const token = signSession(user);
+        return {
+          statusCode: 200,
+          headers: { ...JSON_HEADERS, 'Set-Cookie': sessionCookieHeader(token) },
+          body: JSON.stringify(user),
+        };
+      }
+
+      return { statusCode: 400, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Невідома дія' }) };
+    }
+
+    return { statusCode: 405, headers: JSON_HEADERS, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+  } catch (err) {
+    console.error('auth function error:', err);
+    return { statusCode: 500, headers: JSON_HEADERS, body: JSON.stringify({ error: err.message }) };
+  }
 };
