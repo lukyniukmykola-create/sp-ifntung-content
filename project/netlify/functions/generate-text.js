@@ -103,7 +103,9 @@ ${fieldsList}
           contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
           generationConfig: {
             responseMimeType: 'application/json',
-            maxOutputTokens: 1200
+            maxOutputTokens: 2048,
+            temperature: 0.9,
+            thinkingConfig: { thinkingBudget: 0 }
           }
         })
       }
@@ -116,13 +118,20 @@ ${fieldsList}
       return { statusCode: response.status, body: JSON.stringify({ error: data }) };
     }
 
-    const raw = (data.candidates?.[0]?.content?.parts || []).map((p) => p.text || '').join('\n');
+    const candidate = data.candidates?.[0];
+    const raw = (candidate?.content?.parts || []).map((p) => p.text || '').join('\n');
     const clean = raw.replace(/```json|```/g, '').trim();
 
     let parsed;
     try {
       parsed = JSON.parse(clean);
     } catch (e) {
+      if (candidate?.finishReason === 'MAX_TOKENS' || !clean) {
+        return {
+          statusCode: 502,
+          body: JSON.stringify({ error: 'Модель не встигла дописати текст (обрізалась відповідь). Спробуйте ще раз — зазвичай з другого разу спрацьовує.' })
+        };
+      }
       // Якщо модель не повернула чистий JSON — віддаємо сирий текст,
       // щоб інтерфейс все одно показав хоч щось, а не впав з помилкою.
       parsed = { text: raw, clarifications: [] };
