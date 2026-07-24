@@ -39,7 +39,14 @@ exports.handler = async (event) => {
         .filter(Boolean)
         .map(publicUser)
         .sort((a, b) => (a.createdAt || '').localeCompare(b.createdAt || ''));
-      return { statusCode: 200, headers: JSON_HEADERS, body: JSON.stringify(users) };
+      const owner = {
+        id: 'owner',
+        name: process.env.OWNER_NAME || 'Власник',
+        email: process.env.OWNER_EMAIL || '',
+        role: 'owner',
+        status: 'active',
+      };
+      return { statusCode: 200, headers: JSON_HEADERS, body: JSON.stringify([owner, ...users]) };
     }
 
     if (event.httpMethod === 'POST') {

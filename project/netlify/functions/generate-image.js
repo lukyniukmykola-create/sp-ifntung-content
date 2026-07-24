@@ -1,9 +1,7 @@
 // netlify/functions/generate-image.js
 //
-// Генерація фонового зображення для превʼю поста через Google Gemini
-// (модель gemini-2.5-flash-image, вона ж "Nano Banana", той самий
-// безкоштовний тариф, що й generate-text.js). Ключ GEMINI_API_KEY живе
-// тільки тут, на сервері.
+// Генерація фонового зображення для превʼю поста через Pollinations.
+// Ключ POLLINATIONS_API_KEY живе лише у змінних середовища Netlify.
 //
 // ВАЖЛИВО (розділ 3 ТЗ): ШІ НЕ повинен писати важливий український текст
 // всередині картинки — весь текст (заголовок, дата, хештег) накладає сайт
@@ -18,7 +16,7 @@
 
 const { requireRole } = require('../lib/auth');
 
-const IMAGE_MODEL = 'gemini-2.5-flash-image';
+const IMAGE_MODEL = 'flux';
 
 function buildPrompt({ templateName, templateDescription, fields }) {
   const f = fields || {};
@@ -26,23 +24,11 @@ function buildPrompt({ templateName, templateDescription, fields }) {
     .filter((v) => v && String(v).trim())
     .join('. ');
 
-  return `Створи один привабливий, теплий ілюстративний фон для банера студентської
-спільноти українського технічного університету.
-
-Тема поста: "${templateName || 'пост'}"${templateDescription ? ` (${templateDescription})` : ''}.
-Контекст без вигаданих фактів, лише як натхнення для настрою і композиції: ${topic || 'студентське життя, підтримка, спільнота'}.
-
-Стиль:
-- сучасна плоска/напівплоска ілюстрація або світлина в теплих, дружніх, енергійних кольорах;
-- основний акцент — синьо-блакитна гама з теплими світлими вставками;
-- квадратна композиція 1:1, підходить як фон для банера в соцмережах;
-- достатньо порожнього/спокійного простору у верхній третині кадру, щоб потім поверх накласти заголовок;
-- без політичних символів, без прапорів як домінантного елемента (якщо не свято);
-- доброзичливо, без насильства, без тривожних чи шокуючих образів.
-
-СУВОРА ВИМОГА: зображення НЕ повинно містити жодного тексту, літер, цифр, підписів,
-логотипів, водяних знаків чи псевдотексту. Жодних слів на зображенні взагалі —
-весь текст додається окремо поверх картинки на сайті.`;
+  return `Square 1:1 social media background for a friendly Ukrainian technical university student community.
+Topic: ${templateName || 'student post'}. Context: ${topic || 'student life, support, community'}.
+Modern clean editorial illustration or natural-looking photo, bright blue and white palette with a few warm light accents.
+Leave calm negative space in the upper third for a title overlay. Warm, optimistic, energetic, inclusive, no dark mood.
+Do not add any written text, letters, numbers, signs, logos, watermarks, flags, emblems, or pseudo-text. The website adds the title and branding separately.`;
 }
 
 exports.handler = async (event) => {
@@ -63,11 +49,11 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: 'Некоректний JSON у запиті' }) };
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.POLLINATIONS_API_KEY;
   if (!apiKey) {
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: 'GEMINI_API_KEY не налаштовано в Netlify (Site settings → Environment variables).' }),
+      body: JSON.stringify({ error: 'POLLINATIONS_API_KEY не налаштовано в Netlify (Site settings → Environment variables).' }),
     };
   }
 
@@ -81,46 +67,36 @@ exports.handler = async (event) => {
   const prompt = buildPrompt(body);
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}:generateContent`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey,
-        },
-        body: JSON.stringify({
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: {
-            responseModalities: ['IMAGE'],
-          },
-        }),
-      }
-    );
+    const url = new URL(`https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}`);
+    url.searchParams.set('model', IMAGE_MODEL);
+    url.searchParams.set('width', '1024');
+    url.searchParams.set('height', '1024');
+    url.searchParams.set('seed', String(Math.floor(Math.random() * 1_000_000_000)));
+    url.searchParams.set('nologo', 'true');
 
-    const data = await response.json();
+    const response = await fetch(url, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    });
 
     if (!response.ok) {
-      console.error('Gemini image API error:', JSON.stringify(data));
-      const message =
-        (data && data.error && data.error.message) ||
-        'ШІ-сервіс зображень зараз недоступний. Спробуйте ще раз трохи пізніше.';
+      const details = await response.text().catch(() => '');
+      console.error('Pollinations image API error:', response.status, details);
+      const message = response.status === 401
+        ? 'Ключ Pollinations невалідний або не налаштований.'
+        : response.status === 402
+          ? 'У Pollinations вичерпано безкоштовний ліміт для цього ключа.'
+          : 'ШІ-сервіс зображень зараз недоступний. Спробуйте ще раз трохи пізніше.';
       return { statusCode: response.status, body: JSON.stringify({ error: message }) };
     }
 
-    const parts = data.candidates?.[0]?.content?.parts || [];
-    const imagePart = parts.find((p) => p.inlineData && p.inlineData.data);
-
-    if (!imagePart) {
-      console.error('Gemini image API: no inlineData in response', JSON.stringify(data));
-      return {
-        statusCode: 502,
-        body: JSON.stringify({ error: 'ШІ не повернув зображення. Спробуйте перегенерувати ще раз.' }),
-      };
+    const mimeType = response.headers.get('content-type') || 'image/jpeg';
+    if (!mimeType.startsWith('image/')) {
+      console.error('Pollinations returned a non-image response:', mimeType);
+      return { statusCode: 502, body: JSON.stringify({ error: 'ШІ не повернув зображення. Спробуйте ще раз.' }) };
     }
 
-    const mimeType = imagePart.inlineData.mimeType || 'image/png';
-    const imageData = `data:${mimeType};base64,${imagePart.inlineData.data}`;
+    const imageBase64 = Buffer.from(await response.arrayBuffer()).toString('base64');
+    const imageData = `data:${mimeType};base64,${imageBase64}`;
 
     return {
       statusCode: 200,

@@ -104,8 +104,20 @@ ${fieldsList}
           generationConfig: {
             responseMimeType: 'application/json',
             maxOutputTokens: 2048,
-            temperature: 0.9,
-            thinkingConfig: { thinkingBudget: 0 }
+            responseSchema: {
+              type: 'OBJECT',
+              properties: {
+                text: { type: 'STRING' },
+                clarifications: {
+                  type: 'ARRAY',
+                  items: { type: 'STRING' }
+                }
+              },
+              required: ['text', 'clarifications']
+            },
+            // Gemini 3 uses thinkingLevel. The old thinkingBudget setting caused
+            // a 400 response for this model and silently triggered the fallback.
+            thinkingConfig: { thinkingLevel: 'low' }
           }
         })
       }
