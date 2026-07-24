@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sp-ifntung-content",
+  "compatibility_date": "2026-07-24",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "project"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
